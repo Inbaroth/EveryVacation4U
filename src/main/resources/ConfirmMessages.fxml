@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ConfirmMessages">
+    <children>
+        <VBox fx:id="VB_buttons" layoutX="21.0" layoutY="14.0" prefHeight="258.0" prefWidth="94.0" />
+        <VBox fx:id="VB_labels" layoutX="222.0" layoutY="20.0" prefHeight="258.0" prefWidth="181.0" />
+        <Button layoutX="33.0" layoutY="266.0" mnemonicParsing="false" onAction="#cancel" text="ביטול" />
+    </children>
+</AnchorPane>

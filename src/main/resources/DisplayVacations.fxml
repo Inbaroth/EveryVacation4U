@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="524.0" prefWidth="635.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.DisplayVacations">
+    <children>
+        <Label layoutX="458.0" layoutY="41.0" text="טיסות:">
+            <font>
+                <Font name="Calibri Light" size="42.0" />
+            </font>
+        </Label>
+        <ImageView fitHeight="57.0" fitWidth="46.0" layoutX="560.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" />
+        <Label fx:id="l_originAndDestination" alignment="CENTER" layoutX="140.0" layoutY="120.0" prefHeight="30.0" prefWidth="318.0" style="-fx-text-fill: DodgerBlue;" text="מוצא ויעד">
+            <font>
+                <Font name="Calibri Light" size="25.0" />
+            </font>
+        </Label>
+        <Label fx:id="l_dates" alignment="CENTER" layoutX="140.0" layoutY="162.0" prefHeight="30.0" prefWidth="318.0" style="-fx-text-fill: DodgerBlue;" text="תאריכים">
+            <font>
+                <Font name="Calibri Light" size="25.0" />
+            </font>
+        </Label>
+        <VBox fx:id="vb_details" layoutX="273.0" layoutY="209.0" prefHeight="200.0" prefWidth="318.0" />
+      <VBox fx:id="vb_Buttons" layoutX="104.0" layoutY="209.0" prefHeight="200.0" prefWidth="100.0" />
+    </children>
+</AnchorPane>
