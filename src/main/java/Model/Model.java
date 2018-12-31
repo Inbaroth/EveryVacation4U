@@ -85,13 +85,13 @@ public class Model extends Observable {
     }
 
     /**
-     * This method search and return the row in the database with the same user name as @param userName if exist
+     * This method searchUser and return the row in the database with the same user name as @param userName if exist
      * if doesn't exist - alert message shows up
      * @param userName
      * @return
      */
     public RegisteredUser readUsers(String userName, Boolean isInsert) {
-        RegisteredUser ans = registeredUser.search(userName);
+        RegisteredUser ans = registeredUser.searchUser(userName);
         if (ans != null){
             return ans;
         }

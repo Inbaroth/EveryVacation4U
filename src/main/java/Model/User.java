@@ -7,11 +7,11 @@ public abstract class User {
    protected String DBName;
 
     /**
-     * This method search and return the row in the database which is equal to the given userName
-     * @param userName - user name to search by
+     * This method searchUser and return the row in the database which is equal to the given userName
+     * @param userName - user name to searchUser by
      * @return the founded row
      */
-    public RegisteredUser search(String userName){
+    public RegisteredUser searchUser(String userName){
 
         String selectQuery = "SELECT * FROM users WHERE user_name = ?";
 

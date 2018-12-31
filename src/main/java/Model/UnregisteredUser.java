@@ -1,7 +1,5 @@
 package Model;
 
-import javafx.scene.control.Alert;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -42,7 +40,7 @@ public class UnregisteredUser extends User {
     }
 
     public String signIn(String userName, String password){
-        RegisteredUser ans = super.search(userName);
+        RegisteredUser ans = super.searchUser(userName);
         if (ans != null){
             if (!password.equals(ans.getPassword())) {
                 return "הסיסמאות אינן תואמות";

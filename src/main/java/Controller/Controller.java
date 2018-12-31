@@ -38,7 +38,7 @@ public class Controller extends Observable implements Observer {
     }
 
     /**
-     * This method search and return the row in the database which is equal to the given userName
+     * This method searchUser and return the row in the database which is equal to the given userName
      * @param userName
      * @return the row
      */

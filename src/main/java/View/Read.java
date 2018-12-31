@@ -31,7 +31,7 @@ public class Read extends HomePage implements Observer {
     }
 
     /**
-     * This method search a row in the data base where the primary key is equal to the registeredUser input
+     * This method searchUser a row in the data base where the primary key is equal to the registeredUser input
      * if a row is founded, a new window with the registeredUser details is shows up
      */
     public void confirm (){

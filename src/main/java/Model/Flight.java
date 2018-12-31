@@ -111,7 +111,7 @@ public class Flight {
     }
 
     //ATTENTION:
-    //this method search by ALL columns data except for VacationId,
+    //this method searchUser by ALL columns data except for VacationId,
     //maybe there will be another usage for this
     //maybe return by using it all vacations by removing the "WHERE" parts
 //    //implement readUsers method which will display eace available vacation
