@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane accessibleRole="BUTTON" prefHeight="581.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.UserHomePage">
+<AnchorPane accessibleRole="BUTTON" prefHeight="581.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.UserHomePage">
     <children>
         <Label layoutX="323.0" layoutY="70.0" text="Vacation4U">
             <font>
@@ -54,8 +54,8 @@
                 <Cursor fx:constant="DEFAULT" />
             </cursor>
         </Button>
-        <Button fx:id="btn_updateUser" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#update" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: none; -fx-text-fill: DeepSkyBlue;" text="עדכן את חשבונך" />
-        <Button fx:id="bth_deleteUser" layoutX="148.0" layoutY="14.0" mnemonicParsing="false" onAction="#delete" style="-fx-background-color: none; -fx-text-fill: DeepSkyBlue;" text="מחק את חשבונך" />
+        <Button fx:id="btn_updateUser" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#update" prefHeight="25.0" prefWidth="103.0" style="-fx-background-color: none; -fx-text-fill: DeepSkyBlue;" text="עדכן את חשבונך" />
+        <Button fx:id="bth_deleteUser" layoutX="117.0" layoutY="14.0" mnemonicParsing="false" onAction="#delete" style="-fx-background-color: none; -fx-text-fill: DeepSkyBlue;" text="מחק את חשבונך" />
         <ImageView fx:id="iv_firstHotVacation" fitHeight="150.0" fitWidth="200.0" layoutX="464.0" layoutY="356.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="iv_secondHotVacation" fitHeight="150.0" fitWidth="200.0" layoutX="484.0" layoutY="356.0" pickOnBounds="true" preserveRatio="true" />
         <Label fx:id="lbl_user" layoutX="842.0" layoutY="16.0" prefHeight="46.0" prefWidth="92.0">
@@ -63,6 +63,11 @@
                 <Font name="Calibri Light" size="18.0" />
             </font>
         </Label>
-      <Button fx:id="btn_logoutUser" layoutX="249.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOut" style="-fx-background-color: none; -fx-text-fill: DeepSkyBlue;" text="התנתק" />
+      <Button fx:id="btn_logoutUser" layoutX="226.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOut" style="-fx-background-color: none; -fx-text-fill: DeepSkyBlue;" text="התנתק" />
+      <Button layoutX="731.0" layoutY="500.0" mnemonicParsing="false" onAction="#searchUser" prefHeight="31.0" prefWidth="137.0" text="חיפוש משתמש קיים">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>

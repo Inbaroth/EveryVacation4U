@@ -19,6 +19,7 @@ public class UserHomePage extends HomePage {
     private DisplayVacations displayVacations;
     private Controller controller;
     private Stage stage;
+    private Read read;
 
     public javafx.scene.control.Label lbl_user;
     public javafx.scene.control.TextField tf_origin;
@@ -112,6 +113,9 @@ public class UserHomePage extends HomePage {
         newStage("HomePage.fxml", "כניסת משתמש רשום", homePage, 940, 581,controller);
     }
 
+    public void searchUser(){
+        newStage("read.fxml", "חיפוש משתמש",read,364, 284, controller);
+    }
 
 
 }

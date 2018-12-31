@@ -1,72 +1,28 @@
-package Database;
+package Model;
 
-import Model.Flight;
+import Model.PurchaseFlightHandler;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class PendingFlightsDB extends genericDB {
+public class PendingFlight extends PurchaseFlightHandler {
 
 
-    public PendingFlightsDB(String databaseName) {
+    public PendingFlight(String databaseName) {
         super(databaseName);
     }
 
-    /**
-     * Create a new table in the test database
-     *
-     */
-    public void createNewTable() {
-        // SQLite connection string
-        String url ="jdbc:sqlite:" + DBName + ".db";
-        // SQL statement for creating a new table
-        String createStatement = "CREATE TABLE IF NOT EXISTS PendingFlights (\n"
-                + "FlightId integer PRIMARY KEY,\n"
-                + "	sellerUserName text NOT NULL,\n"
-                + " buyerUserName text NOT NULL\n"
-                + ");";
 
 
-        try (Connection conn = DriverManager.getConnection(url);
-             Statement stmt = conn.createStatement()) {
-            // create a new table
-            stmt.execute(createStatement);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-
-        }
-    }
-
-
-    public void insertVacation(int FlightId,String seller, String buyer) throws SQLException {
+    public void insertPendingFlight(int FlightId, String seller, String buyer) throws SQLException {
         String insertStatement = "INSERT INTO PendingFlights (FlightId,sellerUserName,buyerUserName) VAlUES (?,?,?)";
-        String url = "jdbc:sqlite:" + DBName + ".db";
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(insertStatement)) {
-            // set the corresponding parameters
-            pstmt.setInt(1, FlightId);
-            pstmt.setString(2, seller);
-            pstmt.setString(3, buyer);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw (new SQLException(e));
-        }
+        insertFlight( FlightId, seller,  buyer, insertStatement);
     }
 
 
-    public void deleteVacation(int FlightId){
+    public void deletePendingFlight(int FlightId){
         String deleteStatement = "DELETE FROM PendingFlights WHERE FlightId = ?";
-        String url = "jdbc:sqlite:" + DBName + ".db";
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(deleteStatement)) {
-            // set the corresponding param
-            pstmt.setInt(1, FlightId);
-            // execute the deleteUser statement
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        deleteFlight(FlightId,deleteStatement);
     }
 
     /**
@@ -75,7 +31,7 @@ public class PendingFlightsDB extends genericDB {
      * @param sellerUserName
      * @return
      */
-    public ArrayList<Flight> readPendingVacation(String sellerUserName){
+    public ArrayList<Flight> readPendingFlights(String sellerUserName){
         ArrayList<Flight> flights = new ArrayList<Flight>();
         String sql = "SELECT FlightId,Origin,Destination,Price,DestinationAirport,DateOfDeparture,DateOfArrival,AirlineCompany, NumberOfTickets,Baggage, TicketsType,VacationStyle," +
                 "SellerUserName,OriginalPrice, FROM AvailableVacations WHERE SellerUserName " +
@@ -112,12 +68,12 @@ public class PendingFlightsDB extends genericDB {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //flights = getVacationsBasedOnQuery(url, sql);
+        //flights = searchFlight(url, sql);
         return flights;
     }
 
 
-    public String readPendingVacationBuyer(int FlightId){
+    public String readPendingFlightBuyer(int FlightId){
         String buyer="";
         String sql = "SELECT buyerUserName FROM PendingFlights WHERE FlightId =?";
         String url = "jdbc:sqlite:" + DBName + ".db";

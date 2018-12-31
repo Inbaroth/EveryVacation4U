@@ -43,6 +43,7 @@ public class HomePage implements Observer {
     private SignIn signInWindow;
     private UserHomePage userHomeWindow;
     private Payment payment;
+    private Read read;
 
     private Stage primaryStage;
     private Update updateWindow;
@@ -191,5 +192,8 @@ public class HomePage implements Observer {
         alert.close();
     }
 
+    public void searchUser(){
+        newStage("read.fxml", "חיפוש משתמש",read,364, 284, controller);
+    }
 
 }

@@ -84,8 +84,8 @@ public class View  implements Observer {
 
 
 
-    public void read(ActionEvent actionEvent){
-        newStage("read.fxml", "חיפוש משתמש", readWindow, 364, 284);
+    public void search(ActionEvent actionEvent){
+        newStage("search.fxml", "חיפוש משתמש", readWindow, 364, 284);
     }
 
     public void update(ActionEvent actionEvent){
@@ -182,7 +182,7 @@ public class View  implements Observer {
         controller.addObserver(windowName);
 
         if (windowName instanceof Update){
-            String userDetails = controller.read(controller.getUserName(),false);
+            String userDetails = controller.search(controller.getUserName(),false);
             updateWindow = (Update) windowName;
             updateWindow.setUserDetails(userDetails);
         }
