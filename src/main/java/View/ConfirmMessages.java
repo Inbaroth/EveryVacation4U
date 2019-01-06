@@ -16,12 +16,12 @@ public class ConfirmMessages extends HomePage implements EventHandler<ActionEven
 
     public VBox VB_buttons;
     public VBox VB_labels;
+    private ArrayList<Button> buttonsList;
+    private ArrayList<Label> labelList;
     private Controller controller;
     private Stage stage;
     private Payment payment;
-    private ArrayList<Button> buttonsList;
-    private ArrayList<Label> labelList;
-    public static int vacationID;
+    public static int itemID;
 
     public void setController(Controller controller, Stage stage){
         this.controller = controller;
@@ -30,7 +30,7 @@ public class ConfirmMessages extends HomePage implements EventHandler<ActionEven
     }
 
     public void setMessages() {
-        ArrayList<Flight> pendingFlights = controller.readConfirmedVacations(controller.getUserName());
+        ArrayList<Flight> pendingFlights = controller.readConfirmedFlights(controller.getUserName());
         this.buttonsList = new ArrayList<>();
         this.labelList = new ArrayList<>();
         for (Flight flight : pendingFlights) {
@@ -56,7 +56,7 @@ public class ConfirmMessages extends HomePage implements EventHandler<ActionEven
     public void handle(ActionEvent event) {
         Button button = (Button) event.getSource();
         int index = buttonsList.indexOf(button);
-        this.vacationID = Integer.valueOf(button.getId());
+        this.itemID = Integer.valueOf(button.getId());
         newStage("Payment.fxml", "כניסת משתמש רשום", payment, 600, 400,controller);
     }
     public void cancel(ActionEvent actionEvent) {

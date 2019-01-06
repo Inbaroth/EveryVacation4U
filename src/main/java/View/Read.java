@@ -5,6 +5,7 @@ import Model.RegisteredUser;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -34,14 +35,14 @@ public class Read extends HomePage implements Observer {
      * This method searchUser a row in the data base where the primary key is equal to the registeredUser input
      * if a row is founded, a new window with the registeredUser details is shows up
      */
-    public void confirm (){
+    public void confirm () {
         String userName = String.valueOf(txtfld_userinput.getText());
 
         if (txtfld_userinput.getText() == null || txtfld_userinput.getText().trim().isEmpty()) {
-            controller.alert("אנא בחר שם משתמש לחיפוש");
+            alert("אנא בחר שם משתמש לחיפוש", Alert.AlertType.ERROR);
         }
 
-        registeredUser = controller.readUsers(userName,false);
+        registeredUser = controller.readUsers(userName, false);
 
         if (registeredUser != null) {
             stage.close();
@@ -69,7 +70,9 @@ public class Read extends HomePage implements Observer {
             usersDetails.setController(controller, newStage);
             controller.addObserver(usersDetails);
             usersDetails.setUserDetails(registeredUser);
-
+        }
+    else{
+        alert("שם משתמש לא קיים במערכת", Alert.AlertType.ERROR);
         }
     }
     public void cancel(){

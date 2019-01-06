@@ -48,7 +48,7 @@ public class Insert extends HomePage implements Observer {
         String address = txtfld_Address.getText();
 
         if (!validation()){
-            alert("שדה אחד או יותר ריקים", Alert.AlertType.INFORMATION);
+            alert("שדה אחד או יותר ריקים", Alert.AlertType.ERROR);
         }
         else{
             RegisteredUser registeredUser = new RegisteredUser(userName,password,firstName,lastName,getBirthday(),address,email,null);

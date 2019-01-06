@@ -1,18 +1,17 @@
 package View;
 
 import Controller.Controller;
+import Model.Flight;
 import Model.RegisteredUser;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -21,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
@@ -28,10 +28,9 @@ import java.util.Optional;
 public class HomePage implements Observer {
     private Controller controller;
 
-    public javafx.scene.control.Button bth_createUser;
+    public javafx.scene.control.Button btn_createUser;
     public javafx.scene.control.Button btn_signIn;
-    public ImageView iv_firstHotVacation;
-    public ImageView iv_secondHotVacation;
+    public ImageView iv_homePageImage;
 
     public javafx.scene.control.TextField tf_origin;
     public javafx.scene.control.TextField tf_destination;
@@ -39,15 +38,21 @@ public class HomePage implements Observer {
     public javafx.scene.control.DatePicker dp_arrival;
     public javafx.scene.control.TextField tf_numOfTickets;
 
+    //use this for board of all Flights
+    public VBox VB_buttons;
+    public VBox VB_labels;
+    private ArrayList<Button> buttonsList;
+    private ArrayList<Label> labelList;
+
     private Insert insertWindow;
     private SignIn signInWindow;
     private UserHomePage userHomeWindow;
     private Payment payment;
     private Read read;
-
-    private Stage primaryStage;
     private Update updateWindow;
     private DisplayVacations displayVacations;
+    private Stage primaryStage;
+
     public final Tooltip tooltip = new Tooltip();
 
     public static Stage stage;
@@ -72,7 +77,7 @@ public class HomePage implements Observer {
     public void setImage()  {
     try {
         Image img2 = new Image(getClass().getResource("/mainImage.jpg").toURI().toString());
-        iv_secondHotVacation.setImage(img2);
+        iv_homePageImage.setImage(img2);
     }catch (URISyntaxException e){
         System.out.println(e.getReason() + "," + e.getMessage());
      }
@@ -112,6 +117,7 @@ public class HomePage implements Observer {
             updateWindow = (Update) windowName;
             updateWindow.setUserDetails(registeredUserDetails);
         }
+
 
 
     }
@@ -164,7 +170,8 @@ public class HomePage implements Observer {
                 String dateArriv = controller.changeToRightDateFormat(dp_arrival.getValue().toString());
 //                String dateDepart = dp_departure.getValue().toString();
 //                String dateArriv = dp_arrival.getValue().toString();
-                if(!controller.setMatchesVacations(tf_origin.getText(), tf_destination.getText(), dateDepart, dateArriv, numberOfTickets))
+                Flight flight= new Flight(tf_origin.getText(), tf_destination.getText(), dateDepart, dateArriv, numberOfTickets);
+                if(!controller.setMatchesFlights(flight))
                     newStage("DisplayVacations.fxml", "", displayVacations, 635, 525, controller);
                 else
                     alert("מתנצלים אך אין חופשה שתואמת את החיפוש שלך", Alert.AlertType.INFORMATION);

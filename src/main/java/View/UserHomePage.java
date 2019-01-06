@@ -1,25 +1,26 @@
 package View;
 
 import Controller.Controller;
+import Model.Flight;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class UserHomePage extends HomePage {
 
     private Update updateWindow;
     private HomePage homePage;
-    private InsertVacation insertVacation;
+    private InsertFlight insertFlight;
     private DisplayVacations displayVacations;
+    private Read read;
     private Controller controller;
     private Stage stage;
-    private Read read;
+
 
     public javafx.scene.control.Label lbl_user;
     public javafx.scene.control.TextField tf_origin;
@@ -28,6 +29,11 @@ public class UserHomePage extends HomePage {
     public javafx.scene.control.DatePicker dp_departure;
     public javafx.scene.control.TextField tf_numOfTickets;
 
+    //use this for board of flights available for swap
+    public VBox VB_buttons;
+    public VBox VB_labels;
+    private ArrayList<Button> buttonsList;
+    private ArrayList<Label> labelList;
 
     public void setController(Controller controller, Stage stage) {
         this.controller = controller;
@@ -56,6 +62,7 @@ public class UserHomePage extends HomePage {
             // ... user chose OK
             // Close program
                 controller.deleteUser(controller.getUserName());
+                alert("החשבון נמחק בהצלחה", Alert.AlertType.INFORMATION);
                 stage.close();
                 newStage("HomePage.fxml", "כניסת משתמש רשום", homePage, 940, 581,controller);
         } else {
@@ -89,7 +96,8 @@ public class UserHomePage extends HomePage {
                 System.out.println(dateArriv);
 //                String dateDepart = dp_departure.getValue().toString();
 //                String dateArriv = dp_arrival.getValue().toString();
-                if(!controller.setMatchesVacations(tf_origin.getText(), tf_destination.getText(), dateDepart, dateArriv, numberOfTickets))
+                Flight flight = new Flight(tf_origin.getText(), tf_destination.getText(), dateDepart, dateArriv, numberOfTickets);
+                if(!controller.setMatchesFlights(flight))
                     newStage("DisplayVacations.fxml", "", displayVacations, 635, 525, controller);
                 else
                     alert("מתנצלים אך אין חופשה שתואמת את החיפוש שלך", Alert.AlertType.INFORMATION);
@@ -102,7 +110,7 @@ public class UserHomePage extends HomePage {
 
     public void sellTickets(ActionEvent actionEvent) {
 
-        newStage("InsertVacation.fxml", "יציר חופשה", insertVacation, 760, 430,controller);
+        newStage("InsertVacation.fxml", "יצירת חופשה", insertFlight, 760, 430,controller);
 
 
     }

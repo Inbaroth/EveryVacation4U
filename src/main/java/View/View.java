@@ -31,7 +31,7 @@ public class View  implements Observer {
 
     private Stage primaryStage;
 
-    public javafx.scene.control.Button bth_createUser;
+    public javafx.scene.control.Button btn_createUser;
     public javafx.scene.control.Button btn_read;
     public javafx.scene.control.Button btn_update;
     public javafx.scene.control.Button btn_delete;
