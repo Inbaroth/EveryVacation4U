@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class FlightModel extends Model{
-    public static int flightID ;
+    public static int flightID;
 
 
     public FlightModel(String DBName) {
@@ -174,17 +174,20 @@ public class FlightModel extends Model{
         }
     }
 
-    public void insertFlight(String origin, String destination, int price, String destinationAirport, String dateOfDeparture, String dateOfArrival, String airlineCompany, int numOfTickets, String baggage, String ticketsType, String vacationStyle, String seller, int originalPrice){
-        flightID++;
-        Flight flight = new Flight(flightID, origin,  destination,  price,  destinationAirport,  dateOfDeparture,  dateOfArrival,  airlineCompany,  numOfTickets,  baggage,  ticketsType,  vacationStyle,  seller, originalPrice);
+    public void insertFlight(Flight Data){
+        if (Data.getFlightId() == 0) {
+            flightID++;
+            Data.setFlightId(flightID);
+        }
+        //Flight flight = new Flight(flightID, origin,  destination,  price,  destinationAirport,  dateOfDeparture,  dateOfArrival,  airlineCompany,  numOfTickets,  baggage,  ticketsType,  vacationStyle,  seller, originalPrice);
             String insertStatement = "INSERT INTO AvailableFlights (FlightId,Origin,Destination,Price,DestinationAirport,DateOfDeparture,DateOfArrival,AirlineCompany,NumberOfTickets,Baggage,TicketsType,VacationStyle,SellerUserName,OriginalPrice) VAlUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
            // availableFlight.insertFlight(flight, flightID,insertStatement);
             // allFlightsDB.insertFlight(flight, flightID);
         System.out.println("hello");
-            createFlight(flight, insertStatement);
+            createFlight(Data, insertStatement);
             insertStatement = "INSERT INTO AllFlights (FlightId,Origin,Destination,Price,DestinationAirport,DateOfDeparture,DateOfArrival,AirlineCompany,NumberOfTickets,Baggage,TicketsType,VacationStyle,SellerUserName,OriginalPrice) VAlUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
            // this.flight.insertFlight(flight, flightID, insertStatement);
-            createFlight(flight, insertStatement);
+            createFlight(Data, insertStatement);
     }
 
     /**
@@ -505,7 +508,7 @@ public class FlightModel extends Model{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return 1;
     }
 
     public ArrayList<Flight> readAllAvailableFlights(){
