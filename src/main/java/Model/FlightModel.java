@@ -300,17 +300,139 @@ public class FlightModel extends Model{
 
     }
 
-    public void readPendingToSwapFlights(){
+    /**
+     * This method read all the pending flights from the PendingToSwapFlights DB
+     * @return array list of flights of all the flights exist in the pendingToSwap
+     */
+    public ArrayList<Flight> readPendingToSwapFlights(){
+        ArrayList<Flight> pendingToSwapFlights = new ArrayList<>();
         String deleteStatement = "SELECT * FROM AllFlights inner join PendingToSwapFlights on AllFlights.FlightId = PendingToSwapFlights.FlightId";
         String url = "jdbc:sqlite:" + DBName + ".db";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(deleteStatement)) {
+            // execute the read statement
+            pstmt.executeUpdate();
+            ResultSet rs  = pstmt.executeQuery();
+            while (rs.next()) {
+                int flightId = rs.getInt("FlightId");
+                String origin = rs.getString("Origin");
+                String destination = rs.getString("Destination");
+                int price = rs.getInt("Price");
+                String destinationAirport = rs.getString("DestinationAirport");
+                String dateOfDeparture = rs.getString("DateOfDeparture");
+                String dateOfArrival = rs.getString("DateOfArrival");
+                String airlineCompany = rs.getString("AirlineCompany");
+                int numberOfTickets = rs.getInt("NumberOfTickets");
+                String baggage = rs.getString("Baggage");
+                String ticketsType = rs.getString("TicketsType");
+                String vacationStyle = rs.getString("VacationStyle");
+                String sellerUserName = rs.getString("SellerUserName");
+                int originPrice = rs.getInt("OriginalPrice");
+                Flight flight = new Flight(flightId,origin,destination,price,destinationAirport,dateOfDeparture,dateOfArrival,airlineCompany,numberOfTickets,baggage,ticketsType,vacationStyle,sellerUserName,originPrice);
+                pendingToSwapFlights.add(flight);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return pendingToSwapFlights;
+    }
+
+    /**
+     * This method insert a new row to 'OfferedToSwapFlights' table
+     * @param offeredToSwapFlight
+     */
+    public void InsertOfferToSwapFlight(OfferedToSwapFlight offeredToSwapFlight){
+        String insertStatement = "INSERT INTO OfferedToSwapFlights (FlightIdPending, FlightIdChosen) VAlUES (?,?)";
+        String url = "jdbc:sqlite:" + DBName + ".db";
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(insertStatement)) {
+            // set the corresponding parameters
+            pstmt.setInt(1, offeredToSwapFlight.getFlightIdPending());
+            pstmt.setInt(2, offeredToSwapFlight.getFlightIdOffered());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * This Method delete a row from 'OfferedToSwapFlights' where flightIDPending is equal to FlightIdPending in the database
+     * and flightIDChosen is equal to FlightIdChosen in the data base
+     * @param flightIDPending
+     * @param flightIDChosen
+     */
+    public void deleteOfferToSwapFlight(int flightIDPending, int flightIDChosen){
+        String deleteStatement = "DELETE FROM OfferedToSwapFlights WHERE FlightIdPending = ? and FlightIdChosen = ?";
+        String url = "jdbc:sqlite:" + DBName + ".db";
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(deleteStatement)) {
+            // set the corresponding param
+            pstmt.setInt(1, flightIDPending);
+            pstmt.setInt(2, flightIDChosen);
             // execute the deleteUser statement
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    /**
+     * This method read all the pending flights from the PendingToSwapFlights DB
+     * @return array list of flights of all the flights exist in the pendingToSwap
+     */
+    public ArrayList<Flight> readOfferToSwapFlights(String userName){
+        ArrayList<Flight> offerToSwapFlights = new ArrayList<>();
+        String deleteStatement = "SELECT * FROM AllFlights inner join PurchasedFlights on AllFlights.FlightId = PurchasedFlights.FlightId AND PurchasedFlights.UserName = ? inner join PendingToSwapFlights where AllFlights.FlightId = PendingToSwapFlights.FlightId";
+        String url = "jdbc:sqlite:" + DBName + ".db";
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(deleteStatement)) {
+            // set the corresponding param
+            pstmt.setString(1, userName);
+            // execute the read statement
+            pstmt.executeUpdate();
+
+            ResultSet rs  = pstmt.executeQuery();
+            while (rs.next()) {
+                int flightId = rs.getInt("FlightId");
+                String origin = rs.getString("Origin");
+                String destination = rs.getString("Destination");
+                int price = rs.getInt("Price");
+                String destinationAirport = rs.getString("DestinationAirport");
+                String dateOfDeparture = rs.getString("DateOfDeparture");
+                String dateOfArrival = rs.getString("DateOfArrival");
+                String airlineCompany = rs.getString("AirlineCompany");
+                int numberOfTickets = rs.getInt("NumberOfTickets");
+                String baggage = rs.getString("Baggage");
+                String ticketsType = rs.getString("TicketsType");
+                String vacationStyle = rs.getString("VacationStyle");
+                String sellerUserName = rs.getString("SellerUserName");
+                int originPrice = rs.getInt("OriginalPrice");
+                Flight flight = new Flight(flightId,origin,destination,price,destinationAirport,dateOfDeparture,dateOfArrival,airlineCompany,numberOfTickets,baggage,ticketsType,vacationStyle,sellerUserName,originPrice);
+                offerToSwapFlights.add(flight);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return offerToSwapFlights;
+    }
+
+    /**
+     * This method insert a new row to 'SwappedFlights' table
+     * @param swappedFlight
+     */
+    public void InsertSwappedFlights(SwappedFlight swappedFlight){
+        String insertStatement = "INSERT INTO SwappedFlights (FlightId1, FlightId2) VAlUES (?,?)";
+        String url = "jdbc:sqlite:" + DBName + ".db";
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(insertStatement)) {
+            // set the corresponding parameters
+            pstmt.setInt(1, swappedFlight.getFlightId1());
+            pstmt.setInt(2, swappedFlight.getFlightId2());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -341,15 +463,12 @@ public class FlightModel extends Model{
     }
 
     private void createFlight(Flight Data,String sql)  {
-        System.out.println("creating the flight:");
       //  String insertStatement = "INSERT INTO AllFlights (FlightId,Origin,Destination,Price,DestinationAirport,DateOfDeparture,DateOfArrival,AirlineCompany,NumberOfTickets,Baggage,TicketsType,VacationStyle,SellerUserName,OriginalPrice) VAlUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         String insertStatement = sql;
-        System.out.println(sql);
         String url = "jdbc:sqlite:" + DBName + ".db";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(insertStatement)) {
             // set the corresponding parameters
-            System.out.println(Data.getFlightId());
             pstmt.setInt(1, Data.getFlightId());
             pstmt.setString(2, Data.getOrigin());
             pstmt.setString(3, Data.getDestination());
@@ -368,7 +487,6 @@ public class FlightModel extends Model{
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            System.out.println("shit happens");
         }
     }
 
