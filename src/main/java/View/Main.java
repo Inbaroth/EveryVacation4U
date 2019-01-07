@@ -20,7 +20,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        System.out.println("start");
         model = new Model("EveryVacation4U");
         userModel = new UserModel("EveryVacation4U");
         flightModel = new FlightModel("EveryVacation4U");

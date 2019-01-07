@@ -107,7 +107,7 @@ public class Controller extends Observable implements Observer {
     }
 
     public void insertFlight(Flight Data){
-       // flightModel.insertFlight(Data);
+        flightModel.insertFlight(Data);
     }
 
     public int getflightID(){

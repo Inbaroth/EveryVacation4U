@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Insert extends HomePage implements Observer {
+public class SignUp extends HomePage implements Observer {
 
     private Controller controller;
     private Stage stage;

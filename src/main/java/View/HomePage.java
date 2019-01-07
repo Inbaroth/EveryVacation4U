@@ -7,7 +7,6 @@ import Model.RegisteredUser;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -49,13 +48,13 @@ public class HomePage implements Observer, EventHandler<ActionEvent>{
     private ArrayList<Label> labelList;
     private ArrayList<Flight> availableFlights;
 
-    private Insert insertWindow;
+    private SignUp signUpWindow;
     private SignIn signInWindow;
     private UserHomePage userHomeWindow;
     private Payment payment;
-    private Read read;
-    private Update updateWindow;
-    private DisplayVacations displayVacations;
+    private SearchUser searchUser;
+    private UpdateUserDetails updateUserDetailsWindow;
+    private DisplaySearchedFlights displaySearchedFlights;
     private Stage primaryStage;
 
     public final Tooltip tooltip = new Tooltip();
@@ -74,7 +73,7 @@ public class HomePage implements Observer, EventHandler<ActionEvent>{
         displayAvailableFlights();
     }
     public void create(ActionEvent actionEvent) {
-        newStage("insert.fxml", "", insertWindow, 583, 493,controller);
+        newStage("SignUp.fxml", "", signUpWindow, 583, 493,controller);
     }
 
     public void signIn(ActionEvent actionEvent){
@@ -119,10 +118,10 @@ public class HomePage implements Observer, EventHandler<ActionEvent>{
         windowName.setController(controller, stage);
         controller.addObserver(windowName);
 
-        if (windowName instanceof Update){
+        if (windowName instanceof UpdateUserDetails){
             RegisteredUser registeredUserDetails = controller.readUsers(controller.getUserName(),false);
-            updateWindow = (Update) windowName;
-            updateWindow.setUserDetails(registeredUserDetails);
+            updateUserDetailsWindow = (UpdateUserDetails) windowName;
+            updateUserDetailsWindow.setUserDetails(registeredUserDetails);
         }
 
 
@@ -179,7 +178,7 @@ public class HomePage implements Observer, EventHandler<ActionEvent>{
 //                String dateArriv = dp_arrival.getValue().toString();
                 Flight flight= new Flight(tf_origin.getText(), tf_destination.getText(), dateDepart, dateArriv, numberOfTickets);
                 if(!controller.setMatchesFlights(flight))
-                    newStage("DisplayVacations.fxml", "", displayVacations, 635, 525, controller);
+                    newStage("DisplaySearchedFlights.fxml", "", displaySearchedFlights, 635, 525, controller);
                 else
                     alert("מתנצלים אך אין חופשה שתואמת את החיפוש שלך", Alert.AlertType.INFORMATION);
                 //tf_numOfTickets.clear();
@@ -207,7 +206,7 @@ public class HomePage implements Observer, EventHandler<ActionEvent>{
     }
 
     public void searchUser(){
-        newStage("read.fxml", "חיפוש משתמש",read,364, 284, controller);
+        newStage("SearchUser.fxml", "חיפוש משתמש", searchUser,364, 284, controller);
     }
 
     public void displayAvailableFlights(){
@@ -224,7 +223,7 @@ public class HomePage implements Observer, EventHandler<ActionEvent>{
             btn.setOnAction(this);
             // btn.setTextFill();
             buttonlist.add(btn);
-            String details =  "מ"+ flight.getOrigin() + " אל "+ flight.getDestination() +"בתאריכים:" +flight.getDateOfDeparture() + "-" + flight.getDateOfArrival() + ' ' +"שדה תעופה ביעד:"+ '\n'+flight.getDestinationAirport() + " מס' כרטיסים: " + flight.getNumOfTickets() + " " +  " כבודה:"+ flight.getBaggage() + " סוג כרטיס: " + flight.getTicketsType() + "\n" + " מחיר: "+ flight.getPrice();
+            String details =  "מ"+ flight.getOrigin() + " אל "+ flight.getDestination() +" בתאריכים: " +flight.getDateOfDeparture() + "-" + flight.getDateOfArrival() + '\n' +"שדה תעופה ביעד:"+flight.getDestinationAirport() + " מס' כרטיסים: " + flight.getNumOfTickets() + " " +  " כבודה:"+ flight.getBaggage() + " סוג כרטיס: " + flight.getTicketsType() + "\n" + " מחיר: "+ flight.getPrice();
             Label lbl = new Label();
             lbl.setText(details);
             lbl.setFont(new Font("Calibri Light", 15));

@@ -13,11 +13,11 @@ import java.util.Optional;
 
 public class UserHomePage extends HomePage {
 
-    private Update updateWindow;
+    private UpdateUserDetails updateUserDetailsWindow;
     private HomePage homePage;
-    private InsertFlight insertFlight;
-    private DisplayVacations displayVacations;
-    private Read read;
+    private SaleFlight saleFlight;
+    private DisplaySearchedFlights displaySearchedFlights;
+    private SearchUser searchUser;
     private Controller controller;
     private Stage stage;
 
@@ -49,7 +49,7 @@ public class UserHomePage extends HomePage {
 
 
     public void update(ActionEvent actionEvent) {
-        newStage("Update.fxml", "עדכון פרטים אישיים", updateWindow, 615, 490,controller);
+        newStage("UpdateUserDetails.fxml", "עדכון פרטים אישיים", updateUserDetailsWindow, 615, 490,controller);
     }
 
     public void delete(ActionEvent actionEvent) {
@@ -98,7 +98,7 @@ public class UserHomePage extends HomePage {
 //                String dateArriv = dp_arrival.getValue().toString();
                 Flight flight = new Flight(tf_origin.getText(), tf_destination.getText(), dateDepart, dateArriv, numberOfTickets);
                 if(!controller.setMatchesFlights(flight))
-                    newStage("DisplayVacations.fxml", "", displayVacations, 635, 525, controller);
+                    newStage("DisplaySearchedFlights.fxml", "", displaySearchedFlights, 635, 525, controller);
                 else
                     alert("מתנצלים אך אין חופשה שתואמת את החיפוש שלך", Alert.AlertType.INFORMATION);
                 //tf_numOfTickets.clear();
@@ -110,7 +110,7 @@ public class UserHomePage extends HomePage {
 
     public void sellTickets(ActionEvent actionEvent) {
 
-        newStage("InsertVacation.fxml", "יצירת חופשה", insertFlight, 760, 430,controller);
+        newStage("SaleFlight.fxml", "יצירת חופשה", saleFlight, 760, 430,controller);
 
 
     }
@@ -122,7 +122,7 @@ public class UserHomePage extends HomePage {
     }
 
     public void searchUser(){
-        newStage("read.fxml", "חיפוש משתמש",read,364, 284, controller);
+        newStage("SearchUser.fxml", "חיפוש משתמש", searchUser,364, 284, controller);
     }
 
 

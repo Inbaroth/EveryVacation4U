@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
-public class DisplayVacations extends HomePage implements EventHandler<ActionEvent> {
+public class DisplaySearchedFlights extends HomePage implements EventHandler<ActionEvent> {
 
     private Controller controller;
     private Stage stage;

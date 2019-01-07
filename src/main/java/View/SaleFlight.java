@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 
 
-public class InsertFlight extends HomePage {
+public class SaleFlight extends HomePage {
 
     private Controller controller;
     private Stage stage;
@@ -66,7 +66,6 @@ public class InsertFlight extends HomePage {
             int originalPrice = Integer.valueOf(tf_originalPrice.getText());
             Flight flight = new Flight(origin,destination,price,destinationAirport,dateDepart,dateArriv,airlineCompany,numberOfTicktes,baggage,ticketsType,vacationStyle,seller,originalPrice);
             controller.insertFlight(flight);
-            System.out.println("whattttttttttttttt");
             alert("חופשה נוספה בהצלחה", Alert.AlertType.INFORMATION);
             stage.close();
             //int vacationID = controller.getflightID();
