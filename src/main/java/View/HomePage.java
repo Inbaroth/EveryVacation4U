@@ -2,6 +2,7 @@ package View;
 
 import Controller.Controller;
 import Model.Flight;
+import Model.PendingFlight;
 import Model.RegisteredUser;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -25,7 +27,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
 
-public class HomePage implements Observer {
+public class HomePage implements Observer, EventHandler<ActionEvent>{
     private Controller controller;
 
     public javafx.scene.control.Button btn_createUser;
@@ -43,6 +45,7 @@ public class HomePage implements Observer {
     public VBox VB_labels;
     private ArrayList<Button> buttonsList;
     private ArrayList<Label> labelList;
+    private ArrayList<Flight> availableFlights;
 
     private Insert insertWindow;
     private SignIn signInWindow;
@@ -65,6 +68,7 @@ public class HomePage implements Observer {
         tooltip.setText("\nהכנס מיקום בפורמט:\n"+"עיר,מדינה"+"\n");
         tf_origin.setTooltip(tooltip);
         tf_destination.setTooltip(tooltip);
+        this.availableFlights = controller.getAllAvailableFlights();
     }
     public void create(ActionEvent actionEvent) {
         newStage("insert.fxml", "", insertWindow, 583, 493,controller);
@@ -203,4 +207,52 @@ public class HomePage implements Observer {
         newStage("read.fxml", "חיפוש משתמש",read,364, 284, controller);
     }
 
+    public void displayAvailableFlights(){
+        //check this is the right order HERE
+       // l_originAndDestination.setText("מ"+ availableFlights.get(0).getOrigin() + " אל "+ availableFlights.get(0).getDestination() );
+        //l_dates.setText(availableFlights.get(0).getDateOfDeparture() + "-" + availableFlights.get(0).getDateOfArrival() );
+      // Label label = new Label("מ"+ availableFlights.get(0).getOrigin() + " אל "+ availableFlights.get(0).getDestination() +'\n' +availableFlights.get(0).getDateOfDeparture() + "-" + availableFlights.get(0).getDateOfArrival() + '\n' );
+        ArrayList<Button> buttonlist = new ArrayList<Button>(); //our Collection to hold newly created Buttons
+        String buttonTitle = "רכוש חופשה"; //extract button text, adapt the String to the columnname that you are interested in
+        ArrayList<Label> detailsLabels = new ArrayList<Label>();
+        //change this to flight details
+        for (Flight flight : availableFlights) {
+            Button btn = new Button(buttonTitle);
+            btn.setId(String.valueOf(flight.getFlightId() + "," + flight.getSeller()));
+            btn.setFont(new Font("Calibri Light", 15));
+            btn.setPrefHeight(38.0);
+            btn.setOnAction(this);
+            // btn.setTextFill();
+            buttonlist.add(btn);
+            String details =  "מ"+ flight.getOrigin() + " אל "+ flight.getDestination() +'\n' +flight.getDateOfDeparture() + "-" + flight.getDateOfArrival() + '\n' +"שדה תעופה ביעד:"+ flight.getDestinationAirport() + " מס' כרטיסים: " + flight.getNumOfTickets() + "\n" +  " כבודה:"+ flight.getBaggage() + " סוג כרטיס: " + flight.getTicketsType() + "\n" + " מחיר: "+ flight.getPrice();
+            Label lbl = new Label();
+            lbl.setText(details);
+            lbl.setFont(new Font("Calibri Light", 15));
+            lbl.setPrefSize(500.0,38.0);
+            detailsLabels.add(lbl);
+        }
+        VB_buttons.getChildren().clear();
+        VB_buttons.getChildren().addAll(buttonlist);
+
+        VB_labels.getChildren().clear();
+        VB_labels.getChildren().addAll(detailsLabels);
+    }
+
+    @Override
+    public void handle(ActionEvent event) {
+        if (controller.getUserName() == null) {
+            alert("על מנת לרכוש חופשה עליך להתחבר למערכת תחילה", Alert.AlertType.ERROR);
+            stage.close();
+        } else {
+            Button button = (Button) event.getSource();
+            String[] split = button.getId().split(",");
+            String vacationID = split[0];
+            String seller = split[1];
+            PendingFlight PF = new PendingFlight(Integer.valueOf(vacationID), seller, controller.getUserName());
+            controller.insertPendingFlight(PF);
+            controller.deleteAvailableFlight(Integer.valueOf(vacationID));
+            alert("בקשתך נשלחה למוכר", Alert.AlertType.CONFIRMATION);
+            stage.close();
+        }
+    }
 }

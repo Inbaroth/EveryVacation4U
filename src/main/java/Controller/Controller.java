@@ -180,4 +180,10 @@ public class Controller extends Observable implements Observer {
     public void setUserName(String currentUserName) {
         this.currentUserName = currentUserName;
     }
+
+    public ArrayList<Flight> getAllAvailableFlights() {
+       ArrayList<Flight> availableFlights = new ArrayList<Flight>();
+      //  availableFlights=flightModel.readAllAvailableFlights();
+        return availableFlights;
+    }
 }
