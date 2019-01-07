@@ -131,4 +131,11 @@ public class Flight {
         this.flightId = flightId;
     }
 
+
+
+    @Override
+    public boolean equals(Object obj) {
+        Flight flight = (Flight) obj;
+        return this.flightId == flight.flightId;
+    }
 }

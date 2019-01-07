@@ -1,9 +1,7 @@
 package Model;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.TreeMap;
-import java.util.Vector;
+import java.util.*;
 
 public class FlightModel extends Model{
     public static int flightID;
@@ -316,7 +314,6 @@ public class FlightModel extends Model{
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(readStatement)) {
             // execute the read statement
-            pstmt.executeUpdate();
             ResultSet rs  = pstmt.executeQuery();
             while (rs.next()) {
                 int flightId = rs.getInt("FlightId");
@@ -465,8 +462,41 @@ public class FlightModel extends Model{
         }
     }
 
+    /**
+     * This method return all the flights that was purchased by userName and doesn't appear in pendingToSwapFlight DB
+     * @param userName
+     * @return
+     */
     public ArrayList<Flight> getFlightsToSwapHomePage(String userName){
-        ArrayList<Flight> flightsToSwap = new ArrayList<>();
+        ArrayList<Flight> pendingToSwapFlights = readPendingToSwapFlights();
+        ArrayList<Flight> purchasedFlights = readPurchasedFlights(userName);
+        for (Flight flight :pendingToSwapFlights) {
+            if (purchasedFlights.contains(flight))
+                purchasedFlights.remove(flight);
+        }
+        return purchasedFlights;
+    }
+
+    /**
+     * This method return all the flights that was purchased by userName and doesn't appear in pendingToSwapFlight DB
+     * @param userName
+     * @return
+     */
+    public ArrayList<Flight> getFlightsToSwap(String userName){
+        HashSet<String> offeredFlights = getOffersToSwapFlights();
+        ArrayList<Flight> purchasedFlights = readPurchasedFlights(userName);
+        ArrayList<String> flightId = new ArrayList<>();
+        for (int i = 0; i < purchasedFlights.size();i++){
+            int id = purchasedFlights.get(i).getFlightId();
+            if (offeredFlights.contains(String.valueOf(id))){
+                purchasedFlights.remove(i);
+            }
+        }
+        return purchasedFlights;
+    }
+
+    public ArrayList<Flight> readPurchasedFlights(String userName){
+        ArrayList<Flight> purchasedFlights = new ArrayList<>();
         String insertStatement = "SELECT *  from AllFlights INNER JOIN PurchasedFlights ON AllFlights.FlightId=PurchasedFlights.FlightId WHERE PurchasedFlights.UserName=?";
         String url = "jdbc:sqlite:" + DBName + ".db";
         try (Connection conn = DriverManager.getConnection(url);
@@ -489,14 +519,32 @@ public class FlightModel extends Model{
                 String sellerUserName = rs.getString("SellerUserName");
                 int originPrice = rs.getInt("OriginalPrice");
                 Flight flight = new Flight(flightId,origin,destination,price,destinationAirport,dateOfDeparture,dateOfArrival,airlineCompany,numberOfTickets,baggage,ticketsType,vacationStyle,sellerUserName,originPrice);
-                flightsToSwap.add(flight);
+                purchasedFlights.add(flight);
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return purchasedFlights;
 
-        return flightsToSwap;
+    }
+
+    public HashSet<String> getOffersToSwapFlights (){
+        HashSet<String> offeredToSwapFile = new HashSet<>();
+        String insertStatement = "SELECT * from OfferedToSwapFlights";
+        String url = "jdbc:sqlite:" + DBName + ".db";
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(insertStatement)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()){
+                String chosenFlight = rs.getString("FlightIdChosen");
+                offeredToSwapFile.add(chosenFlight);
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return offeredToSwapFile;
     }
 
     /**
