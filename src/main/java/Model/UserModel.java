@@ -32,7 +32,6 @@ public class UserModel extends Model {
             return "האימייל לא בפורמט הנכון";
         else{
             String insertStatement = "INSERT INTO Users (user_name, password, first_name, last_name, birthday, address, email, profilePicture) VALUES (?,?,?,?,?,?,?,?)";
-
             String url = "jdbc:sqlite:" + DBName + ".db";
 
             try (Connection conn = DriverManager.getConnection(url);
@@ -74,7 +73,7 @@ public class UserModel extends Model {
      * @return
      */
     public RegisteredUser searchUsers(String userName, Boolean isInsert) {
-        RegisteredUser ans = new RegisteredUser(this.DBName);
+        RegisteredUser ans;
         String selectQuery = "SELECT * FROM users WHERE user_name = ?";
 
         String url = "jdbc:sqlite:" + DBName + ".db";
@@ -95,17 +94,18 @@ public class UserModel extends Model {
                         rs.getString("email"),
                         null);
                 ans= registeredUser;
+                return ans;
             }
         } catch (SQLException e) {
                 e.printStackTrace();
         }
-        if (ans != null){
+/*        if (ans != null){
             return ans;
-        }
-        else if (!isInsert){
-            //alert("שם משתמש לא קיים במערכת", Alert.AlertType.ERROR);
+        }*/
+/*        else if (!isInsert){
+
             return null;
-        }
+        }*/
         return null;
     }
 
