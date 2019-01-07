@@ -2,6 +2,7 @@ package View;
 
 import Controller.Controller;
 import Model.Flight;
+import Model.PendingFlight;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,7 +19,7 @@ public class DisplayVacations extends HomePage implements EventHandler<ActionEve
     private Controller controller;
     private Stage stage;
     private SignIn signInWindow;
-    ArrayList<Flight> matchFlights;
+    private ArrayList<Flight> matchFlights;
     public VBox vb_Buttons;
     public VBox vb_details;
     public Label l_originAndDestination;
@@ -28,11 +29,11 @@ public class DisplayVacations extends HomePage implements EventHandler<ActionEve
         this.controller = controller;
         this.stage = stage;
         matchFlights = new ArrayList<>();
-        matchFlights = controller.getMatchesVacations();
+        matchFlights = controller.getMatchesFlights();
         offerVacations();
     }
              //(ActionEvent event)
-    void offerVacations() {
+    public void offerVacations() {
         //check this is the right order HERE
         l_originAndDestination.setText("מ"+ matchFlights.get(0).getOrigin() + " אל "+ matchFlights.get(0).getDestination() );
         l_dates.setText(matchFlights.get(0).getDateOfDeparture() + "-" + matchFlights.get(0).getDateOfArrival() );
@@ -74,8 +75,9 @@ public class DisplayVacations extends HomePage implements EventHandler<ActionEve
             String[] split = button.getId().split(",");
             String vacationID = split[0];
             String seller = split[1];
-            controller.insertPendingvacation(Integer.valueOf(vacationID), seller, controller.getUserName());
-            controller.deleteAvailableVacation(Integer.valueOf(vacationID));
+            PendingFlight PF = new PendingFlight(Integer.valueOf(vacationID), seller, controller.getUserName());
+            controller.insertPendingFlight(PF);
+            controller.deleteAvailableFlight(Integer.valueOf(vacationID));
             alert("בקשתך נשלחה למוכר", Alert.AlertType.CONFIRMATION);
             stage.close();
         }

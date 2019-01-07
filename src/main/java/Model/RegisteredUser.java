@@ -1,6 +1,7 @@
 package Model;
 
 import java.awt.*;
+import java.sql.*;
 
 public class RegisteredUser extends User{
 
@@ -12,6 +13,11 @@ public class RegisteredUser extends User{
     private String address;
     private String email;
     private Image profilePicture;
+
+
+    public RegisteredUser(String DBName) {
+        this.DBName = DBName;
+    }
 
     public RegisteredUser(String userName, String password, String firstName, String lastName, String birthday, String address, String email, Image profilePicture) {
         this.userName = userName;
@@ -95,4 +101,6 @@ public class RegisteredUser extends User{
     }
 
     //</editor-fold>
+
+
 }

@@ -88,7 +88,7 @@ public class Update extends HomePage implements Observer {
             String newAddress = txtfld_Address.getText();
             String newEmail = txtfld_email.getText();
             RegisteredUser updateRegisteredUser = new RegisteredUser(newUserName,newPassword,newFirstName,newLastName,newBirthday,newAddress,newEmail,null);
-            String ans = controller.updateDB(registeredUser.getUserName(), updateRegisteredUser,newPasswordReplay);
+            String ans = controller.updatedDB(registeredUser.getUserName(), updateRegisteredUser,newPasswordReplay);
             if (!ans.equals("פרטי החשבון עודכנו בהצלחה"))
                 alert(ans, Alert.AlertType.ERROR);
             else{

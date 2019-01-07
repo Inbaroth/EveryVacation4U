@@ -3,11 +3,11 @@ package Model;
 public class OfferedToSwapFlight {
 
     private int FlightIdPending;
-    private int FlightIdOffered;
+    private int FlightIdChosen;
 
     public OfferedToSwapFlight(int flightIdPending, int flightIdOffered) {
         FlightIdPending = flightIdPending;
-        FlightIdOffered = flightIdOffered;
+        FlightIdChosen = flightIdOffered;
     }
 
     public int getFlightIdPending() {
@@ -15,6 +15,6 @@ public class OfferedToSwapFlight {
     }
 
     public int getFlightIdOffered() {
-        return FlightIdOffered;
+        return FlightIdChosen;
     }
 }

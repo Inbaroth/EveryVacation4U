@@ -31,7 +31,7 @@ public class View  implements Observer {
 
     private Stage primaryStage;
 
-    public javafx.scene.control.Button bth_createUser;
+    public javafx.scene.control.Button btn_createUser;
     public javafx.scene.control.Button btn_read;
     public javafx.scene.control.Button btn_update;
     public javafx.scene.control.Button btn_delete;
@@ -84,8 +84,8 @@ public class View  implements Observer {
 
 
 
-    public void read(ActionEvent actionEvent){
-        newStage("read.fxml", "חיפוש משתמש", readWindow, 364, 284);
+    public void searchUser(ActionEvent actionEvent){
+        newStage("searchUser.fxml", "חיפוש משתמש", readWindow, 364, 284);
     }
 
     public void update(ActionEvent actionEvent){
@@ -182,7 +182,7 @@ public class View  implements Observer {
         controller.addObserver(windowName);
 
         if (windowName instanceof Update){
-            String userDetails = controller.read(controller.getUserName(),false);
+            String userDetails = controller.searchUser(controller.getUserName(),false);
             updateWindow = (Update) windowName;
             updateWindow.setUserDetails(userDetails);
         }

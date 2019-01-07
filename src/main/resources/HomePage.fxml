@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane accessibleRole="BUTTON" prefHeight="600.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.HomePage">
+<AnchorPane accessibleRole="BUTTON" prefHeight="600.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.HomePage">
    <children>
       <Label layoutX="323.0" layoutY="70.0" text="Vacation4U">
          <font>
@@ -55,8 +55,12 @@
          </cursor>
       </Button>
       <Button fx:id="btn_signIn" layoutX="21.0" layoutY="24.0" mnemonicParsing="false" onAction="#signIn" prefHeight="25.0" prefWidth="123.0" style="-fx-background-color: none; -fx-text-fill: DeepSkyBlue;" text="כניסה לחשבון קיים" />
-      <Button fx:id="bth_createUser" layoutX="144.0" layoutY="24.0" mnemonicParsing="false" onAction="#create" style="-fx-background-color: none; -fx-text-fill: DeepSkyBlue;" text="יצירת חשבון" />
-      <ImageView fx:id="iv_firstHotVacation" fitHeight="184.0" fitWidth="483.0" layoutX="254.0" layoutY="368.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="iv_secondHotVacation" fitHeight="150.0" fitWidth="200.0" layoutX="449.0" layoutY="348.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="btn_createUser" layoutX="144.0" layoutY="24.0" mnemonicParsing="false" onAction="#create" style="-fx-background-color: none; -fx-text-fill: DeepSkyBlue;" text="יצירת חשבון" />
+      <ImageView fx:id="iv_homePageImage" fitHeight="150.0" fitWidth="200.0" layoutX="449.0" layoutY="348.0" pickOnBounds="true" preserveRatio="true" />
+      <Button layoutX="799.0" layoutY="527.0" mnemonicParsing="false" onAction="#searchUser" text="חפש משתמש קיים">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

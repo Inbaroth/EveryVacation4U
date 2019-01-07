@@ -1,6 +1,7 @@
 package View;
 
 import Controller.Controller;
+import Model.ConfirmedFlight;
 import Model.Flight;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -31,7 +32,7 @@ public class PendingMessages extends HomePage implements EventHandler<ActionEven
     }
 
     public void setMessages() {
-        ArrayList<Flight> pendingFlights = controller.readPendingVacations(controller.getUserName());
+        ArrayList<Flight> pendingFlights = controller.readPendingFlights(controller.getUserName());
         this.flights = new ArrayList<>();
         this.buttonsListConfirm = new ArrayList<>();
         this.buttonsListCancel = new ArrayList<>();
@@ -69,14 +70,14 @@ public class PendingMessages extends HomePage implements EventHandler<ActionEven
         Button button = (Button) event.getSource();
         if (button.getText().equals("אשר רכישה")) {
             int index = buttonsListConfirm.indexOf(button);
-            String buyer = controller.readPendingVacationBuyer(Integer.valueOf(button.getId()));
-            controller.deletePendingVacation(button.getId());
+            String buyer = controller.readPendingFlightBuyer(Integer.valueOf(button.getId()));
+            controller.deletePendingFlight(button.getId());
             Label label = labelList.get(index);
             String labelText = label.getText();
             Flight flight = this.flights.get(index);
             //String[] data = labelText.split(",");
-            controller.insertConfirmedVacation(Integer.valueOf(button.getId()), controller.getUserName(),
-                    buyer, flight.getOrigin(), flight.getDestination(), flight.getPrice(), flight.getDateOfDeparture(), flight.getDateOfArrival());
+            ConfirmedFlight CF = new ConfirmedFlight(Integer.valueOf(button.getId()), controller.getUserName(), buyer);
+            controller.insertConfirmedFlight(CF);
             button.setDisable(true);
             buttonsListCancel.get(index).setDisable(true);
             alert("הודעת אישור תועבר לקונה", Alert.AlertType.CONFIRMATION);
@@ -84,11 +85,11 @@ public class PendingMessages extends HomePage implements EventHandler<ActionEven
         else{
             //למחוק מפנדיג
             // להוסיך לזמינים
-            controller.deletePendingVacation(button.getId());
+            controller.deletePendingFlight(button.getId());
             int index = buttonsListCancel.indexOf(button);
             Label label = labelList.get(index);
             Flight flight = this.flights.get(index);
-            controller.insertVacation(flight.getOrigin(), flight.getDestination(), flight.getPrice(), flight.getDestinationAirport(), flight.getDateOfDeparture(), flight.getDateOfArrival(), flight.getAirlineCompany(),
+            controller.insertFlight(flight.getOrigin(), flight.getDestination(), flight.getPrice(), flight.getDestinationAirport(), flight.getDateOfDeparture(), flight.getDateOfArrival(), flight.getAirlineCompany(),
                     flight.getNumOfTickets(), flight.getBaggage(), flight.getTicketsType(), flight.getVacationStyle(), flight.getSeller(), flight.getOriginalPrice());
             button.setDisable(true);
             buttonsListConfirm.get(index).setDisable(true);

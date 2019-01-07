@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 
 
-public class InsertVacation extends HomePage {
+public class InsertFlight extends HomePage {
 
     private Controller controller;
     private Stage stage;
@@ -63,10 +63,11 @@ public class InsertVacation extends HomePage {
             String vacationStyle = cb_vacationStyle.getValue();
             String seller = controller.getUserName();
             int originalPrice = Integer.valueOf(tf_originalPrice.getText());
-            controller.insertVacation(origin,destination,price,destinationAirport,dateDepart,dateArriv,airlineCompany,numberOfTicktes,baggage,ticketsType,vacationStyle,seller,originalPrice);
+            controller.insertFlight(origin,destination,price,destinationAirport,dateDepart,dateArriv,airlineCompany,numberOfTicktes,baggage,ticketsType,vacationStyle,seller,originalPrice);
+            System.out.println("whattttttttttttttt");
             alert("חופשה נוספה בהצלחה", Alert.AlertType.INFORMATION);
             stage.close();
-            int vacationID = controller.getVacationID();
+            //int vacationID = controller.getflightID();
 
         }
 

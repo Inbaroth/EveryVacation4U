@@ -2,6 +2,8 @@ package View;
 
 import Controller.Controller;
 import Model.Model;
+import Model.UserModel;
+import Model.FlightModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,17 +13,21 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private Model model;
+    private UserModel userModel;
+    private FlightModel flightModel;
     private HomePage view;
 
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
-        model = new Model();
-        Controller controller = new Controller(model);
+        System.out.println("start");
+        model = new Model("EveryVacation4U");
+        userModel = new UserModel("EveryVacation4U");
+        flightModel = new FlightModel("EveryVacation4U");
+        Controller controller = new Controller(userModel,flightModel);
         model.addObserver(controller);
-
-
+        userModel.addObserver(controller);
+        flightModel.addObserver(controller);
         //FXMLLoader fxmlLoader = FXMLLoader.load(getClass().getClassLoader().getResource("view.fxml"));
         FXMLLoader fxmlLoader = new FXMLLoader();
         //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("view.fxml"));

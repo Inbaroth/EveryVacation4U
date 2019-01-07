@@ -2,6 +2,7 @@ package View;
 
 import Controller.Controller;
 import Model.Flight;
+import Model.UnregisteredUser;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
@@ -25,7 +26,7 @@ public class SignIn extends HomePage implements Observer{
     }
 
     public void logIn(){
-
+        UnregisteredUser URU = new UnregisteredUser();
         String userName = username.getText();
         String Password = password.getText();
 
@@ -41,11 +42,11 @@ public class SignIn extends HomePage implements Observer{
                 stage.close();
                 newStage("UserHomePage.fxml", "כניסת משתמש רשום", userHomePage, 940, 581,controller);
                 HomePage.stage.close();
-                ArrayList<Flight> pendingFlights = controller.readPendingVacations(controller.getUserName());
+                ArrayList<Flight> pendingFlights = controller.readPendingFlights(controller.getUserName());
                 //VacationId,Origin,Destionation,Price,DateOfDeparture,Date
                 if (pendingFlights.size() > 0)
                     newStage("PendingMessages.fxml", "אשר רכישת חופשות", pendingMessage, 604, 312,controller);
-                ArrayList<Flight> confirmFlights = controller.readConfirmedVacations(controller.getUserName());
+                ArrayList<Flight> confirmFlights = controller.readConfirmedFlights(controller.getUserName());
                 if (confirmFlights.size() > 0){
                     newStage("ConfirmMessages.fxml", "אשר תשלום עבור חופשות", pendingMessage, 400, 600,controller);
 

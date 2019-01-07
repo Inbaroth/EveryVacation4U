@@ -1,13 +1,12 @@
 package View;
 
 import Controller.Controller;
+import Model.PurchasedFlight;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Calendar;
 import java.util.Observer;
 
 public class Payment  extends HomePage implements Observer {
@@ -51,8 +50,9 @@ public class Payment  extends HomePage implements Observer {
         LocalDateTime localDateTime = LocalDateTime.now();
         String date = LocalDateTime.now().toString().substring(0,localDateTime.toString().indexOf("T"));
         String time = LocalTime.now().toString();
-        controller.deleteConfirmedVacation(ConfirmMessages.vacationID);
-        controller.insertPurchasedVacation(ConfirmMessages.vacationID,date,time,controller.getUserName());
+        controller.deleteConfirmedFlight(ConfirmMessages.itemID);
+        PurchasedFlight flight= new PurchasedFlight(ConfirmMessages.itemID,date,time,controller.getUserName());
+        controller.insertPurchasedFlight(flight);
         alert("הרכישה בוצעה בהצלחה", Alert.AlertType.INFORMATION);
         stage.close();
     }

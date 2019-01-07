@@ -1,8 +1,13 @@
 package Controller;
 
 import Model.Model;
+import Model.UserModel;
+import Model.FlightModel;
 import Model.Flight;
 import Model.RegisteredUser;
+import Model.PurchasedFlight;
+import Model.PendingFlight;
+import Model.ConfirmedFlight;
 import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
@@ -11,125 +16,122 @@ import java.util.Observer;
 
 public class Controller extends Observable implements Observer {
 
-    private Model model;
+    private UserModel userModel;
+    private FlightModel flightModel;
     public static String currentUserName;
-
     private ArrayList<Flight> flightMatchSearches;
 
 
 
     /**
      * Constructor for the class Controller
-     * @param model
+     * @param userModel
      */
-    public Controller(Model model) {
-
-        this.model = model;
+    public Controller(UserModel userModel, FlightModel flightModel) {
+        this.userModel = userModel;
+        this.flightModel = flightModel;
     }
 
     /**
      *
      * @param registeredUser
-     * This method insert a new row to the data base with the given parameters
+     * This method insertUser a new row to the data base with the given parameters
      */
-    public String insertUser (RegisteredUser registeredUser, String confirmMessage) {
-        return model.insert(registeredUser,confirmMessage);
+    public String insertUser(RegisteredUser registeredUser, String confirmPassword) {
+        return userModel.createUser(registeredUser,confirmPassword);
 
     }
 
     /**
-     * This method search and return the row in the database which is equal to the given userName
+     * This method searchUser and return the row in the database which is equal to the given userName
      * @param userName
      * @return the row
      */
     public RegisteredUser readUsers(String userName, Boolean isInsert){
-        return model.readUsers(userName,isInsert);
+        return userModel.searchUsers(userName,isInsert);
     }
 
 
-    public String updateDB(String oldUserName, RegisteredUser registeredUser, String confirmMessage){
-        return model.updateUser(oldUserName, registeredUser,confirmMessage);
+    public String updatedDB(String oldUserName, RegisteredUser registeredUser, String confirmPassword){
+        return userModel.updateUser(oldUserName, registeredUser,confirmPassword);
     }
     /**
      * This method deleteUser a row from the data base where the primary key is equal to @param userName
      * @param userName
      */
     public void deleteUser(String userName){
-        model.deleteUser(userName);
+        userModel.deleteUser(userName);
     }
 
-    public ArrayList<Flight> readPendingVacations(String sellerUserName){
-        return model.readPendingFlights(sellerUserName);
+    public ArrayList<Flight> readPendingFlights(String sellerUserName){
+        return flightModel.readPendingFlights(sellerUserName);
     }
 
-    public ArrayList<Flight> readConfirmedVacations(String buyerUserName){
-        return model.readConfirmedFlights(buyerUserName);
+    public ArrayList<Flight> readConfirmedFlights(String buyerUserName){
+        return flightModel.readConfirmedFlights(buyerUserName);
     }
 
-    public void deletePendingVacation(String vacationID){
-        model.deleteFlightFlight(Integer.valueOf(vacationID));
+    public void deletePendingFlight(String vacationID){
+        flightModel.deletePendingFlight(Integer.valueOf(vacationID));
     }
-    public void insertConfirmedVacation(int vacationId,String seller, String buyer,String origin, String destination, int price, String dateOfDeparture, String dateOfArrival ){
-        model.insertConfirmedFlight(vacationId,seller,buyer,origin,destination,price,dateOfDeparture,dateOfArrival);
+    public void insertConfirmedFlight(ConfirmedFlight CFlight){
+        flightModel.insertConfirmedFlight(CFlight);
     }
 
-    public void insertPurchasedVacation(int vacationId,String date, String time,String  userName){
-        model.insertPurchasedFlight(vacationId,date,time,userName);
+    public void insertPurchasedFlight(PurchasedFlight flight){
+        flightModel.insertPurchasedFlight(flight);
     }
 
     /**
      * This method create an Alert object.
      * This method invoked when the user didn't insertUser an input
      */
+/*
     public void alert(String messageText){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(messageText);
         alert.showAndWait();
         alert.close();
     }
+*/
 
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == model){
+        /// check if has usage!!!!!!!
+        if (o == userModel){
             setChanged();
             notifyObservers(arg);
         }
 
     }
 
-    public void insertVacation(String origin, String destination, int price, String destinationAirport, String dateOfDeparture, String dateOfArrival, String airlineCompany, int numOfTickets, String baggage, String ticketsType, String vacationStyle, String seller, int originalPrice){
-        model.insertFlight(origin, destination, price, destinationAirport, dateOfDeparture, dateOfArrival, airlineCompany, numOfTickets, baggage, ticketsType, vacationStyle, seller, originalPrice);
+    public void insertFlight(String origin, String destination, int price, String destinationAirport, String dateOfDeparture, String dateOfArrival, String airlineCompany, int numOfTickets, String baggage, String ticketsType, String vacationStyle, String seller, int originalPrice){
+        flightModel.insertFlight(origin, destination, price, destinationAirport, dateOfDeparture, dateOfArrival, airlineCompany, numOfTickets, baggage, ticketsType, vacationStyle, seller, originalPrice);
     }
 
-    public int getVacationID(){
-        return model.getFlightID();
+    public int getflightID(){
+        return flightModel.getFlightID();
     }
-
 
     public String signIn(String userName, String password){
         currentUserName = userName;
-        return model.signIn(userName,password);
+        return userModel.signIn(userName,password);
     }
 
     /**
      * return true if size is 0, else return false
-     * @param origin
-     * @param destination
-     * @param dateOfDeparture
-     * @param dateOfArrival
-     * @param numOfTickets
      * @return
      */
-    public boolean setMatchesVacations(String origin, String destination, String dateOfDeparture,String dateOfArrival,int numOfTickets){
+    public boolean setMatchesFlights(Flight flight){
         flightMatchSearches = new ArrayList<Flight>();
-        flightMatchSearches = model.getMatchesFlights(origin,  destination,  dateOfDeparture,  dateOfArrival,  numOfTickets);
+        flightMatchSearches = flightModel.getMatchesFlights(flight);
         if(flightMatchSearches.size()==0)
             return true;
         return false;
     }
 
-    public ArrayList<Flight> getMatchesVacations(){
+    public ArrayList<Flight> getMatchesFlights(){
         if(flightMatchSearches !=null)
             return flightMatchSearches;
         return null;
@@ -137,25 +139,25 @@ public class Controller extends Observable implements Observer {
 
 
 
-    public void deleteAvailableVacation(int vacationId){
-        model.deleteAvailableFlight(vacationId);
+    public void deleteAvailableFlight(int vacationId){
+        flightModel.deleteAvailableFlight(vacationId);
     }
 
-    public String readPendingVacationBuyer(int VacationId){
-        return model.readPendingFlightBuyer(VacationId);
+    public String readPendingFlightBuyer(int VacationId){
+        return flightModel.readPendingFlightBuyer(VacationId);
     }
 
     public String getUserName() {
         return currentUserName;
     }
 
-    public void insertPendingvacation(int vacationId,String seller, String buyer ){
-        model.insertPendingFlight(vacationId, seller, buyer);
+    public void insertPendingFlight(PendingFlight pFlight){
+        flightModel.insertPendingFlight(pFlight);
     }
 
 
-    public void deleteConfirmedVacation(int vacationID) {
-        model.deleteConfirmedFlight(vacationID);
+    public void deleteConfirmedFlight(int vacationID) {
+        flightModel.deleteConfirmedFlight(vacationID);
     }
 
         /**
