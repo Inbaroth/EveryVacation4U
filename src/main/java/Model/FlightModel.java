@@ -138,7 +138,8 @@ public class FlightModel extends Model{
     public ArrayList<Flight> readConfirmedFlights(String buyerUserName){
         ArrayList<Flight> vacationsToPay = new ArrayList<Flight>();
         //String sql = "SELECT VacationId,Origin,Destination,Price,DateOfDeparture,DateOfArrival FROM ConfirmedSaleVacations WHERE buyerUserName=?";
-        String sql = "SELECT AllFlights.FlightId,AllFlights.Origin,AllFlights.Destination,AllFlights.Price,AllFlights.DateOfDeparture,AllFlights.DateOfArrival FROM AllFlights INNER JOIN ConfirmedSaleFlights ON ConfirmedSaleFlights.FlightId = AllFlights.FlightId  WHERE buyerUserName=? ";
+        String sql = "SELECT AllFlights.FlightId,AllFlights.Origin,AllFlights.Destination,AllFlights.Price,AllFlights.DateOfDeparture,AllFlights.DateOfArrival " +
+                "FROM AllFlights INNER JOIN ConfirmedSaleFlights ON ConfirmedSaleFlights.FlightId = AllFlights.FlightId  WHERE buyerUserName=? ";
         String url = "jdbc:sqlite:" + DBName + ".db";
         try (Connection connect = DriverManager.getConnection(url);
              PreparedStatement stmt = connect.prepareStatement(sql)){
@@ -281,17 +282,29 @@ public class FlightModel extends Model{
     }
 
     /**
-     *
+     * This Method delete a row from 'PendingToSwapFlight' where flightId is equal to flight id in the database
      * @param flightID
      */
     public void deletePendingToSwapFlight(int flightID){
-        //confirmedSaleFlight.deleteConfirmedFlight(flightID);
         String deleteStatement = "DELETE FROM PendingToSwapFlights WHERE FlightId = ?";
         String url = "jdbc:sqlite:" + DBName + ".db";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(deleteStatement)) {
             // set the corresponding param
             pstmt.setInt(1, flightID);
+            // execute the deleteUser statement
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void readPendingToSwapFlights(){
+        String deleteStatement = "SELECT * FROM AllFlights inner join PendingToSwapFlights on AllFlights.FlightId = PendingToSwapFlights.FlightId";
+        String url = "jdbc:sqlite:" + DBName + ".db";
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(deleteStatement)) {
             // execute the deleteUser statement
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -399,7 +412,7 @@ public class FlightModel extends Model{
                 String ticketsType = rs.getString("TicketsType");
                 String vacationStyle = rs.getString("VacationStyle");
                 String sellerUserName = rs.getString("SellerUserName");
-                int originPrice = rs.getInt("OriginPrice");
+                int originPrice = rs.getInt("OriginalPrice");
                 Flight flight = new Flight(flightId,origin,destination,price,destinationAirport,dateOfDeparture,dateOfArrival,airlineCompany,numberOfTickets,baggage,ticketsType,vacationStyle,sellerUserName,originPrice);
                 availableFlights.add(flight);
             }
