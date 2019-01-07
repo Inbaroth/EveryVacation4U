@@ -1,6 +1,7 @@
 package View;
 
 import Controller.Controller;
+import Model.Flight;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Tooltip;
@@ -63,7 +64,8 @@ public class InsertFlight extends HomePage {
             String vacationStyle = cb_vacationStyle.getValue();
             String seller = controller.getUserName();
             int originalPrice = Integer.valueOf(tf_originalPrice.getText());
-            controller.insertFlight(origin,destination,price,destinationAirport,dateDepart,dateArriv,airlineCompany,numberOfTicktes,baggage,ticketsType,vacationStyle,seller,originalPrice);
+            Flight flight = new Flight(origin,destination,price,destinationAirport,dateDepart,dateArriv,airlineCompany,numberOfTicktes,baggage,ticketsType,vacationStyle,seller,originalPrice);
+            controller.insertFlight(flight);
             System.out.println("whattttttttttttttt");
             alert("חופשה נוספה בהצלחה", Alert.AlertType.INFORMATION);
             stage.close();

@@ -89,8 +89,7 @@ public class PendingMessages extends HomePage implements EventHandler<ActionEven
             int index = buttonsListCancel.indexOf(button);
             Label label = labelList.get(index);
             Flight flight = this.flights.get(index);
-            controller.insertFlight(flight.getOrigin(), flight.getDestination(), flight.getPrice(), flight.getDestinationAirport(), flight.getDateOfDeparture(), flight.getDateOfArrival(), flight.getAirlineCompany(),
-                    flight.getNumOfTickets(), flight.getBaggage(), flight.getTicketsType(), flight.getVacationStyle(), flight.getSeller(), flight.getOriginalPrice());
+            controller.insertFlight(flight);
             button.setDisable(true);
             buttonsListConfirm.get(index).setDisable(true);
 
