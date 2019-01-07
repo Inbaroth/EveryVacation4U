@@ -103,7 +103,7 @@ public class UserModel extends Model {
             return ans;
         }*/
 /*        else if (!isInsert){
-            //alert("שם משתמש לא קיים במערכת", Alert.AlertType.ERROR);
+
             return null;
         }*/
         return null;
