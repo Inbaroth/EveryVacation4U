@@ -106,8 +106,8 @@ public class Controller extends Observable implements Observer {
 
     }
 
-    public void insertFlight(String origin, String destination, int price, String destinationAirport, String dateOfDeparture, String dateOfArrival, String airlineCompany, int numOfTickets, String baggage, String ticketsType, String vacationStyle, String seller, int originalPrice){
-        flightModel.insertFlight(origin, destination, price, destinationAirport, dateOfDeparture, dateOfArrival, airlineCompany, numOfTickets, baggage, ticketsType, vacationStyle, seller, originalPrice);
+    public void insertFlight(Flight Data){
+       // flightModel.insertFlight(Data);
     }
 
     public int getflightID(){
