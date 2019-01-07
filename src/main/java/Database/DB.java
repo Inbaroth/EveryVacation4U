@@ -128,7 +128,28 @@ public class DB {
         }
     }
 
-    public void createOfferedToSwapFlightsTable() {}
+    /**
+     * Create a new table 'OfferedToSwapFlights' in Db
+     */
+    public void createOfferedToSwapFlightsTable() {
+        // SQLite connection string
+        String url ="jdbc:sqlite:" + DBName + ".db";
+        // SQL statement for creating a new table
+        String createStatement = "CREATE TABLE IF NOT EXISTS OfferedToSwapFlights (\n"
+                + " FlightIdPending integer not null ,\n"
+                + "	FlightIdChosen integer not null ,\n"
+                + "PRIMARY KEY (FlightIdChosen,FlightIdChosen)"
+                + ");";
+
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement stmt = conn.createStatement()) {
+            // create a new table
+            stmt.execute(createStatement);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        }
+    }
 
     /**
      * Create a new table in the test database
@@ -155,7 +176,23 @@ public class DB {
         }
     }
 
-    public void createPendingSwapFlightsTable() {}
+    public void createPendingSwapFlightsTable() {
+        // SQLite connection string
+        String url ="jdbc:sqlite:" + DBName + ".db";
+        // SQL statement for creating a new table
+        String createStatement = "CREATE TABLE IF NOT EXISTS PendingToSwapFlights (\n"
+                + " FlightId integer PRIMARY KEY\n"
+                + ");";
+
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement stmt = conn.createStatement()) {
+            // create a new table
+            stmt.execute(createStatement);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        }
+    }
 
     /**
      * Create a new table in the test database
@@ -181,7 +218,24 @@ public class DB {
         }
     }
 
-    public void createSwappedFlightsTable() {}
+    public void createSwappedFlightsTable() {
+        // SQLite connection string
+        String url ="jdbc:sqlite:" + DBName + ".db";
+        // SQL statement for creating a new table
+        String createStatement = "CREATE TABLE IF NOT EXISTS SwappedFlights (\n"
+                + "	FlightId1 integer NOT NULL ,\n"
+                + "	FlightId2 integer NOT NULL ,\n"
+                + "PRIMARY KEY (FlightId1,FlightId2)"
+                + ");";
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement stmt = conn.createStatement()) {
+            // create a new table
+            stmt.execute(createStatement);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        }
+    }
 
     /**
      * This method create a new table in the data base by the name tableName
