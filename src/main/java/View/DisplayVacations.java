@@ -64,7 +64,7 @@ public class DisplayVacations extends HomePage implements EventHandler<ActionEve
     }
 
 
-    @Override
+/*    @Override
     public void handle(ActionEvent event) {
         if (controller.getUserName() == null){
             alert("על מנת לרכוש חופשה עליך להתחבר למערכת תחילה", Alert.AlertType.ERROR);
@@ -81,6 +81,5 @@ public class DisplayVacations extends HomePage implements EventHandler<ActionEve
             alert("בקשתך נשלחה למוכר", Alert.AlertType.CONFIRMATION);
             stage.close();
         }
-
-    }
+    }*/
 }

@@ -183,7 +183,7 @@ public class Controller extends Observable implements Observer {
 
     public ArrayList<Flight> getAllAvailableFlights() {
        ArrayList<Flight> availableFlights = new ArrayList<Flight>();
-      //  availableFlights=flightModel.readAllAvailableFlights();
+        availableFlights=flightModel.readAllAvailableFlights();
         return availableFlights;
     }
 }
