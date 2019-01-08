@@ -86,7 +86,7 @@ public class UserHomePage extends HomePage {
                 alert("אופס! הערך שהוזן במספר טיסות איננו תקין.", Alert.AlertType.ERROR);
                 return;
             }
-            if(dp_departure.getValue().compareTo(dp_arrival.getValue()) > 1 || dp_departure.getValue().compareTo(LocalDate.now()) < 1) {
+            if(dp_departure.getValue().compareTo(dp_arrival.getValue()) > 1 || dp_departure.getValue().compareTo(LocalDate.now()) < 0) {
                 alert("אנא הזן טווח תאריכים חוקי", Alert.AlertType.ERROR);
                 return;
             }
