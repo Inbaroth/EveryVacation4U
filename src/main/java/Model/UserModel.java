@@ -23,7 +23,13 @@ public class UserModel extends Model {
         if (searchUsers(registeredUser.getUserName(), true) != null){
             return "שם המשתמש שהזנת כבר קיים";
         }
-
+        // Checking that both password text fields are equal
+        else if (registeredUser.getPassword().length() < 6 ){
+            return "אורך סיסמה לא יכול להיות קטן מ 6 ספרות";
+        }
+        else if (registeredUser.getPassword().length() > 9){
+            return "אורך סיסמה לא יכול להיות גדול מ 8 ספרות";
+        }
         // Checking that both password text fields are equal
         else if (!registeredUser.getPassword().equals(confirmPassword)){
             return "הסיסמאות אינן תואמות";

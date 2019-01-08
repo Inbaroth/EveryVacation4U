@@ -59,7 +59,7 @@ public class Insert extends HomePage implements Observer {
                 alert("התחברת בהצלחה", Alert.AlertType.INFORMATION);
                 stage.close();
                 controller.setUserName(userName);
-                newStage("UserHomePage.fxml", "כניסת משתמש רשום", userHomePage, 940, 581,controller);
+                newStage("UserHomePage.fxml", "כניסת משתמש רשום", userHomePage, 995, 716,controller);
                 HomePage.stage.close();
 
             }

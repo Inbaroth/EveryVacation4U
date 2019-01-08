@@ -40,15 +40,15 @@ public class SignIn extends HomePage implements Observer{
                 alert(ans,Alert.AlertType.ERROR);
             else if (ans != null && ans.equals(userName)){
                 stage.close();
-                newStage("UserHomePage.fxml", "כניסת משתמש רשום", userHomePage, 940, 581,controller);
+                newStage("UserHomePage.fxml", "כניסת משתמש רשום", userHomePage, 995, 716,controller);
                 HomePage.stage.close();
                 ArrayList<Flight> pendingFlights = controller.readPendingFlights(controller.getUserName());
                 //VacationId,Origin,Destionation,Price,DateOfDeparture,Date
                 if (pendingFlights.size() > 0)
-                    newStage("PendingMessages.fxml", "אשר רכישת חופשות", pendingMessage, 604, 312,controller);
+                    newStage("PendingMessages.fxml", "אשר רכישת חופשות", pendingMessage, 896, 325,controller);
                 ArrayList<Flight> confirmFlights = controller.readConfirmedFlights(controller.getUserName());
                 if (confirmFlights.size() > 0){
-                    newStage("ConfirmMessages.fxml", "אשר תשלום עבור חופשות", pendingMessage, 400, 600,controller);
+                    newStage("ConfirmMessages.fxml", "הודעה על אישור רכישת חופשו", pendingMessage, 896, 325,controller);
 
                 }
 

@@ -71,8 +71,16 @@ public class Controller extends Observable implements Observer {
         return flightModel.readConfirmedFlights(buyerUserName);
     }
 
-    public void deletePendingFlight(String vacationID){
-        flightModel.deletePendingFlight(Integer.valueOf(vacationID));
+    public ArrayList<Flight> readConfirmedFlightsSeller(String sellerUserName){
+        return flightModel.readConfirmedFlightsSeller(sellerUserName);
+    }
+
+    public String readConfirmedFlightBuyer(int flightId){
+        return flightModel.readConfirmedFlightBuyer(flightId);
+    }
+
+    public void deletePendingFlight(int flightId){
+        flightModel.deletePendingFlight(flightId);
     }
     public void insertConfirmedFlight(ConfirmedFlight CFlight){
         flightModel.insertConfirmedFlight(CFlight);
@@ -82,19 +90,9 @@ public class Controller extends Observable implements Observer {
         flightModel.insertPurchasedFlight(flight);
     }
 
-    /**
-     * This method create an Alert object.
-     * This method invoked when the user didn't insertUser an input
-     */
-/*
-    public void alert(String messageText){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(messageText);
-        alert.showAndWait();
-        alert.close();
+    public String readPurchasedFlightBuyer(int flightId){
+        return flightModel.readPurchasedFlightBuyer(flightId);
     }
-*/
-
 
     @Override
     public void update(Observable o, Object arg) {
@@ -108,6 +106,10 @@ public class Controller extends Observable implements Observer {
 
     public void insertFlight(Flight Data){
        // flightModel.insertFlight(Data);
+    }
+
+    public Flight getFlight(int flightId){
+        return flightModel.getFlight(flightId);
     }
 
     public int getflightID(){

@@ -138,4 +138,9 @@ public class Flight {
         Flight flight = (Flight) obj;
         return this.flightId == flight.flightId;
     }
+
+    @Override
+    public int hashCode() {
+        return this.flightId;
+    }
 }

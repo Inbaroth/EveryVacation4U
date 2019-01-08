@@ -8,6 +8,8 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 
+import java.time.LocalDate;
+
 
 public class InsertFlight extends HomePage {
 
@@ -48,6 +50,10 @@ public class InsertFlight extends HomePage {
                 alert("אופס! הערך שהוזן בשדה מספרי איננו תקין.", Alert.AlertType.ERROR);
                 return;
             }
+            if(dp_departure.getValue().compareTo(dp_arrival.getValue()) > 1 || dp_departure.getValue().compareTo(LocalDate.now()) < 1) {
+                alert("אנא הזן טווח תאריכים חוקי", Alert.AlertType.ERROR);
+                return;
+            }
             String origin = tf_origin.getText();
             String destination = tf_destination.getText();
             int price = Integer.valueOf(tf_requestedPrice.getText());
@@ -70,13 +76,7 @@ public class InsertFlight extends HomePage {
             alert("חופשה נוספה בהצלחה", Alert.AlertType.INFORMATION);
             stage.close();
             //int vacationID = controller.getflightID();
-
         }
-
-
-
-
-
 
     }
 

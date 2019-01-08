@@ -3,23 +3,27 @@ package View;
 import Controller.Controller;
 import Model.Flight;
 import Model.RegisteredUser;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import org.apache.commons.lang3.StringUtils;
 
 
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -31,12 +35,28 @@ public class HomePage implements Observer {
     public javafx.scene.control.Button btn_createUser;
     public javafx.scene.control.Button btn_signIn;
     public ImageView iv_homePageImage;
-
     public javafx.scene.control.TextField tf_origin;
     public javafx.scene.control.TextField tf_destination;
     public javafx.scene.control.DatePicker dp_departure;
     public javafx.scene.control.DatePicker dp_arrival;
     public javafx.scene.control.TextField tf_numOfTickets;
+    public javafx.scene.control.TableView flightBoard;
+    public javafx.scene.control.TableColumn origin;
+    public javafx.scene.control.TableColumn destination;
+    public javafx.scene.control.TableColumn price;
+    public javafx.scene.control.TableColumn DateOfDeparture;
+    public javafx.scene.control.TableColumn DateOfArrival;
+    public javafx.scene.control.TableColumn numberOfTickets;
+    public javafx.scene.control.TableColumn buy;
+    public javafx.scene.control.TableView exchangeBoard;
+    public javafx.scene.control.TableColumn origin1;
+    public javafx.scene.control.TableColumn destination1;
+    public javafx.scene.control.TableColumn price1;
+    public javafx.scene.control.TableColumn DateOfDeparture1;
+    public javafx.scene.control.TableColumn DateOfArrival1;
+    public javafx.scene.control.TableColumn numberOfTickets1;
+    public javafx.scene.control.TableColumn buy1;
+
 
     //use this for board of all Flights
     public VBox VB_buttons;
@@ -61,7 +81,7 @@ public class HomePage implements Observer {
         this.controller = controller;
         this.primaryStage = primaryStage;
         stage = primaryStage;
-        setImage();
+        //setImage();
         tooltip.setText("\nהכנס מיקום בפורמט:\n"+"עיר,מדינה"+"\n");
         tf_origin.setTooltip(tooltip);
         tf_destination.setTooltip(tooltip);
@@ -75,12 +95,12 @@ public class HomePage implements Observer {
     }
 
     public void setImage()  {
-    try {
+/*    try {
         Image img2 = new Image(getClass().getResource("/mainImage.jpg").toURI().toString());
         iv_homePageImage.setImage(img2);
     }catch (URISyntaxException e){
         System.out.println(e.getReason() + "," + e.getMessage());
-     }
+     }*/
     }
 
     /**
@@ -162,6 +182,10 @@ public class HomePage implements Observer {
                 alert("אופס! הערך שהוזן במספר טיסות איננו תקין.", Alert.AlertType.ERROR);
                 return;
             }
+            if(dp_departure.getValue().compareTo(dp_arrival.getValue()) > 1 || dp_departure.getValue().compareTo(LocalDate.now()) < 1) {
+                alert("אנא הזן טווח תאריכים חוקי", Alert.AlertType.ERROR);
+                return;
+            }
             //empty, make default 1
             else if (tf_numOfTickets.getText().equals("") || StringUtils.isNumeric(tf_numOfTickets.getText())) {
                 //tf_numOfTickets.setText("1");
@@ -200,7 +224,110 @@ public class HomePage implements Observer {
     }
 
     public void searchUser(){
-        newStage("read.fxml", "חיפוש משתמש",read,364, 284, controller);
+        newStage("SearchUser.fxml", "חיפוש משתמש", searchUser,364, 284, controller);
     }
+
+
+    public void displayAvailableFlights(){
+        this.availableFlights = controller.getAllAvailableFlights();
+        origin.setCellValueFactory(new PropertyValueFactory<Flight,String>("origin"));
+        destination.setCellValueFactory(new PropertyValueFactory<Flight,String>("destination"));
+        price.setCellValueFactory(new PropertyValueFactory<Flight,String>("price"));
+        DateOfDeparture.setCellValueFactory(new PropertyValueFactory<Flight,String>("dateOfDeparture"));
+        DateOfArrival.setCellValueFactory(new PropertyValueFactory<Flight,String>("dateOfArrival"));
+        numberOfTickets.setCellValueFactory(new PropertyValueFactory<Flight,String>("numOfTickets"));
+        buy.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+        Callback<TableColumn<Flight, String>, TableCell<Flight, String>> cellFactory
+                = //
+                new Callback<TableColumn<Flight, String>, TableCell<Flight, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<Flight, String> param) {
+                        final TableCell<Flight, String> cell = new TableCell<Flight, String>() {
+
+                            final Button btn = new Button("רכש חופשה");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                this.setAlignment(Pos.CENTER);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.setOnAction(event -> {
+                                        if (controller.getUserName() == null)
+                                            alert("עלייך להתחבר למערכת תחילה", Alert.AlertType.ERROR);
+                                        else {
+                                            Flight flight = getTableView().getItems().get(getIndex());
+                                            PendingFlight PF = new PendingFlight(flight.getFlightId(), flight.getSeller(), controller.getUserName());
+                                            controller.insertPendingFlight(PF);
+                                            controller.deleteAvailableFlight(Integer.valueOf(flight.getFlightId()));
+                                            alert("בקשתך נשלחה למוכר", Alert.AlertType.CONFIRMATION);
+                                            stage.close();
+                                        }
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+        buy.setCellFactory(cellFactory);
+        ObservableList<Flight> data = FXCollections.observableArrayList(availableFlights);
+        flightBoard.setItems(data);
+
+        origin1.setCellValueFactory(new PropertyValueFactory<Flight,String>("origin"));
+        destination1.setCellValueFactory(new PropertyValueFactory<Flight,String>("destination"));
+        price1.setCellValueFactory(new PropertyValueFactory<Flight,String>("price"));
+        DateOfDeparture1.setCellValueFactory(new PropertyValueFactory<Flight,String>("dateOfDeparture"));
+        DateOfArrival1.setCellValueFactory(new PropertyValueFactory<Flight,String>("dateOfArrival"));
+        numberOfTickets1.setCellValueFactory(new PropertyValueFactory<Flight,String>("numOfTickets"));
+        buy.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+        Callback<TableColumn<Flight, String>, TableCell<Flight, String>> cellFactory1
+                = //
+                new Callback<TableColumn<Flight, String>, TableCell<Flight, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<Flight, String> param) {
+                        final TableCell<Flight, String> cell = new TableCell<Flight, String>() {
+
+                            final Button btn = new Button("הגש בקשה להחלפה");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                this.setAlignment(Pos.CENTER);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.setOnAction(event -> {
+                                        if (controller.getUserName() == null)
+                                            alert("עלייך להתחבר למערכת תחילה", Alert.AlertType.ERROR);
+                                        else {
+                                            Flight flight = getTableView().getItems().get(getIndex());
+                                            PendingFlight PF = new PendingFlight(flight.getFlightId(), flight.getSeller(), controller.getUserName());
+                                            controller.insertPendingFlight(PF);
+                                            controller.deleteAvailableFlight(Integer.valueOf(flight.getFlightId()));
+                                            alert("בקשתך נשלחה למוכר", Alert.AlertType.CONFIRMATION);
+                                            stage.close();
+                                        }
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+        buy1.setCellFactory(cellFactory1);
+        ObservableList<Flight> data1 = FXCollections.observableArrayList(controller.readPendingToSwapFlights());
+        exchangeBoard.setItems(data1);
+    }
+
 
 }

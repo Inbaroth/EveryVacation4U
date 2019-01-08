@@ -1,24 +1,27 @@
 package View;
 
 import Controller.Controller;
-import Model.ConfirmedFlight;
 import Model.Flight;
-import Model.PendingToSwapFlight;
+import Model.OfferedToSwapFlight;
+import Model.PurchasedFlight;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
 import javafx.util.Callback;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Observer;
 
-public class PendingMessages extends HomePage{
+public class FlightsWaitingForApproval extends HomePage implements Observer {
+
 
     private Controller controller;
     private Stage stage;
@@ -31,14 +34,14 @@ public class PendingMessages extends HomePage{
     public javafx.scene.control.TableColumn numberOfTickets;
     public javafx.scene.control.TableColumn buy;
 
-
     public void setController(Controller controller, Stage stage){
         this.controller = controller;
         this.stage = stage;
-        setMessages();
+        displayFlights();
+
     }
 
-    public void setMessages() {
+    private void displayFlights(){
         origin.setCellValueFactory(new PropertyValueFactory<Flight,String>("origin"));
         destination.setCellValueFactory(new PropertyValueFactory<Flight,String>("destination"));
         price.setCellValueFactory(new PropertyValueFactory<Flight,String>("price"));
@@ -54,7 +57,7 @@ public class PendingMessages extends HomePage{
                     public TableCell call(final TableColumn<Flight, String> param) {
                         final TableCell<Flight, String> cell = new TableCell<Flight, String>() {
 
-                            final Button btn = new Button("אשר מכירת חופשה");
+                            final Button btn = new Button("אשר קבלת תשלום");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -66,11 +69,14 @@ public class PendingMessages extends HomePage{
                                 } else {
                                     btn.setOnAction(event -> {
                                         Flight flight = getTableView().getItems().get(getIndex());
-                                        String buyer = controller.readPendingFlightBuyer(flight.getFlightId());
-                                        ConfirmedFlight confirmedFlight = new ConfirmedFlight(flight.getFlightId(),controller.getUserName(),buyer);
-                                        controller.insertConfirmedFlight(confirmedFlight);
-                                        controller.deletePendingFlight(flight.getFlightId());
-                                        alert("הסכמת רכישה תועבר לקונה", Alert.AlertType.CONFIRMATION);
+                                        String buyer = controller.readConfirmedFlightBuyer(flight.getFlightId());
+                                        LocalDateTime localDateTime = LocalDateTime.now();
+                                        String date = LocalDateTime.now().toString().substring(0,localDateTime.toString().indexOf("T"));
+                                        String time = LocalTime.now().toString();
+                                        controller.deleteConfirmedFlight(flight.getFlightId());
+                                        PurchasedFlight purchasedFlight = new PurchasedFlight(flight.getFlightId(),date,time,buyer);
+                                        controller.insertPurchasedFlight(purchasedFlight);
+                                        alert("מצוין!", Alert.AlertType.CONFIRMATION);
                                         btn.setDisable(true);
                                         //stage.close();
 
@@ -84,13 +90,9 @@ public class PendingMessages extends HomePage{
                     }
                 };
         buy.setCellFactory(cellFactory);
-        ObservableList<Flight> data = FXCollections.observableArrayList(controller.readPendingFlights(controller.getUserName()));
+        ObservableList<Flight> data = FXCollections.observableArrayList(controller.readConfirmedFlightsSeller(controller.getUserName()));
         flightBoard.setItems(data);
-
     }
 
 
-    public void cancel(ActionEvent actionEvent) {
-        stage.close();
-    }
 }

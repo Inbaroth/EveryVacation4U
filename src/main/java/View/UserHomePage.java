@@ -6,9 +6,9 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class UserHomePage extends HomePage {
@@ -84,6 +84,10 @@ public class UserHomePage extends HomePage {
             //invalid number (not empty)
             if (!tf_numOfTickets.getText().equals("") && !StringUtils.isNumeric(tf_numOfTickets.getText())) {
                 alert("אופס! הערך שהוזן במספר טיסות איננו תקין.", Alert.AlertType.ERROR);
+                return;
+            }
+            if(dp_departure.getValue().compareTo(dp_arrival.getValue()) > 1 || dp_departure.getValue().compareTo(LocalDate.now()) < 1) {
+                alert("אנא הזן טווח תאריכים חוקי", Alert.AlertType.ERROR);
                 return;
             }
             //empty, make default 1
