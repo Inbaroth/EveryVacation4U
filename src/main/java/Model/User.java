@@ -30,8 +30,7 @@ public abstract class User {
                         rs.getString("last_name"),
                         rs.getString("birthday"),
                         rs.getString("address"),
-                        rs.getString("email"),
-                        null);
+                        rs.getString("email"));
                 return registeredUser;
             }
         } catch (SQLException e) {

@@ -79,15 +79,15 @@ public class Update extends HomePage implements Observer {
             alert("שדה אחד או יותר ריקים", Alert.AlertType.INFORMATION);
         }
         else {
-            String newUserName = txtfld_userName.getText();
-            String newPassword = txtfld_password.getText();
-            String newPasswordReplay = txtfld_confirmPassword.getText();
-            String newFirstName = txtfld_firstName.getText();
-            String newLastName = txtfld_lastName.getText();
-            String newBirthday = getBirthday();
-            String newAddress = txtfld_Address.getText();
-            String newEmail = txtfld_email.getText();
-            RegisteredUser updateRegisteredUser = new RegisteredUser(newUserName,newPassword,newFirstName,newLastName,newBirthday,newAddress,newEmail,null);
+            String newUserName = txtfld_userName.getText().trim();
+            String newPassword = txtfld_password.getText().trim();
+            String newPasswordReplay = txtfld_confirmPassword.getText().trim();
+            String newFirstName = txtfld_firstName.getText().trim();
+            String newLastName = txtfld_lastName.getText().trim();
+            String newBirthday = getBirthday().trim();
+            String newAddress = txtfld_Address.getText().trim();
+            String newEmail = txtfld_email.getText().trim();
+            RegisteredUser updateRegisteredUser = new RegisteredUser(newUserName,newPassword,newFirstName,newLastName,newBirthday,newAddress,newEmail);
             String ans = controller.updatedDB(registeredUser.getUserName(), updateRegisteredUser,newPasswordReplay);
             if (!ans.equals("פרטי החשבון עודכנו בהצלחה"))
                 alert(ans, Alert.AlertType.ERROR);

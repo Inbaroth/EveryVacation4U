@@ -27,11 +27,11 @@ public class SignIn extends HomePage implements Observer{
 
     public void logIn(){
         UnregisteredUser URU = new UnregisteredUser();
-        String userName = username.getText();
+        String userName = username.getText().trim();
         String Password = password.getText();
 
         //if one or more is empty
-        if(userName == null || Password == null || username.getText().trim().isEmpty() || password.getText().trim().isEmpty()){
+        if(userName == null || Password == null || username.getText().trim().isEmpty() || password.getText().trim().isEmpty() || userName.trim().equals("") || Password.trim().equals("")){
             alert("שדה אחד או יותר ריקים", Alert.AlertType.ERROR);
         }
         else{
@@ -40,7 +40,7 @@ public class SignIn extends HomePage implements Observer{
                 alert(ans,Alert.AlertType.ERROR);
             else if (ans != null && ans.equals(userName)){
                 stage.close();
-                newStage("UserHomePage.fxml", "כניסת משתמש רשום", userHomePage, 995, 716,controller);
+                newStage("UserHomePage.fxml", "כניסת משתמש רשום", userHomePage, 944, 650,controller);
                 HomePage.stage.close();
                 ArrayList<Flight> pendingFlights = controller.readPendingFlights(controller.getUserName());
                 //VacationId,Origin,Destionation,Price,DateOfDeparture,Date

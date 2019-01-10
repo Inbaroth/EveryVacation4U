@@ -59,7 +59,7 @@
             <Font name="Calibri Light" size="18.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cb_baggage" layoutX="560.0" layoutY="265.0" prefWidth="150.0" >
+      <ComboBox fx:id="cb_baggage" layoutX="560.0" layoutY="265.0" prefWidth="150.0">
           <items>
               <FXCollections fx:factory="observableArrayList">
                   <String fx:value="None" />
@@ -76,7 +76,7 @@
             <Font name="Calibri Light" size="18.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cb_ticketsType" layoutX="394.0" layoutY="265.0" prefWidth="150.0" >
+      <ComboBox fx:id="cb_ticketsType" layoutX="394.0" layoutY="265.0" prefWidth="150.0">
           <items>
               <FXCollections fx:factory="observableArrayList">
                   <String fx:value="adult" />
@@ -122,5 +122,6 @@
             <Font name="Calibri Bold Italic" size="22.0" />
          </font>
       </Button>
+      <Label layoutX="66.0" layoutY="207.0" text="\$" />
    </children>
 </AnchorPane>

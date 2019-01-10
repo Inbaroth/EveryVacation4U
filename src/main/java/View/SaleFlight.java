@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 
 public class InsertFlight extends HomePage {
@@ -41,8 +42,9 @@ public class InsertFlight extends HomePage {
 
 
     public void createVacation(ActionEvent actionEvent){
-        if(tf_origin.getText()==null || tf_destination.getText()==null  || dp_departure.getValue()==null || dp_arrival.getValue() == null || tf_numOfTickets.getText()==null|| tf_destinationAirport.getText()==null || tf_AirlineCompany.getText()==null || tf_originalPrice.getText()==null ||tf_requestedPrice.getText()==null|| cb_baggage.getValue()==null ||  cb_ticketsType.getValue()==null || cb_vacationStyle.getValue()==null ){
+        if(tf_origin.getText()==null || tf_destination.getText()==null  || dp_departure.getValue()==null || dp_arrival.getValue() == null || tf_numOfTickets.getText()==null|| tf_destinationAirport.getText()==null || tf_AirlineCompany.getText()==null || tf_originalPrice.getText()==null ||tf_requestedPrice.getText()==null|| cb_baggage.getValue()==null ||  cb_ticketsType.getValue()==null || cb_vacationStyle.getValue()==null ||tf_origin.getText().equals("") || tf_destination.getText().equals("")  || dp_departure.getValue().equals("") || dp_arrival.getValue().equals("") || tf_numOfTickets.getText().equals("")|| tf_destinationAirport.getText().equals("") || tf_AirlineCompany.getText().equals("")|| tf_originalPrice.getText().equals("")||tf_requestedPrice.getText().equals("")|| cb_baggage.getValue().equals("") ||  cb_ticketsType.getValue().equals("") || cb_vacationStyle.getValue().equals("") ){
             alert( "אחד השדות או יותר ריקים", Alert.AlertType.ERROR);
+            return;
         }
         else{
             //invalid number (not empty)
@@ -50,34 +52,34 @@ public class InsertFlight extends HomePage {
                 alert("אופס! הערך שהוזן בשדה מספרי איננו תקין.", Alert.AlertType.ERROR);
                 return;
             }
-            if(dp_departure.getValue().compareTo(dp_arrival.getValue()) > 1 || dp_departure.getValue().compareTo(LocalDate.now()) < 0) {
+            if(!isValidChosenDate(dp_departure,dp_arrival)) {
                 alert("אנא הזן טווח תאריכים חוקי", Alert.AlertType.ERROR);
                 return;
             }
-            String origin = tf_origin.getText();
-            String destination = tf_destination.getText();
+            String origin = tf_origin.getText().trim();
+            String destination = tf_destination.getText().trim();
             int price = Integer.valueOf(tf_requestedPrice.getText());
-            String destinationAirport = tf_destinationAirport.getText();
+            String destinationAirport = tf_destinationAirport.getText().trim();
             String dateDepart = controller.changeToRightDateFormat(dp_departure.getValue().toString());
             String dateArriv = controller.changeToRightDateFormat(dp_arrival.getValue().toString());
-//            String dateDepart = dp_departure.getValue().toString();
-//            String dateArriv = dp_arrival.getValue().toString();
-            String airlineCompany = tf_AirlineCompany.getText();
-            int numberOfTicktes = Integer.valueOf(tf_numOfTickets.getText());
-            //String baggage, String ticketsType, String vacationStyle, String seller, int originalPrice
+            String airlineCompany = tf_AirlineCompany.getText().trim();
+            int numberOfTickets = Integer.valueOf(tf_numOfTickets.getText());
             String baggage = cb_baggage.getValue();
             String ticketsType = cb_ticketsType.getValue();
             String vacationStyle = cb_vacationStyle.getValue();
             String seller = controller.getUserName();
             int originalPrice = Integer.valueOf(tf_originalPrice.getText());
-            Flight flight = new Flight(origin,destination,price,destinationAirport,dateDepart,dateArriv,airlineCompany,numberOfTicktes,baggage,ticketsType,vacationStyle,seller,originalPrice);
+            Flight flight = new Flight(origin,destination,price,destinationAirport,dateDepart,dateArriv,airlineCompany,numberOfTickets,baggage,ticketsType,vacationStyle,seller,originalPrice);
             controller.insertFlight(flight);
             System.out.println("whattttttttttttttt");
             alert("חופשה נוספה בהצלחה", Alert.AlertType.INFORMATION);
             stage.close();
-            //int vacationID = controller.getflightID();
+
+
         }
 
     }
+
+
 
 }

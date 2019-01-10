@@ -2,7 +2,6 @@ package View;
 
 import Controller.Controller;
 import Model.Flight;
-import Model.OfferedToSwapFlight;
 import Model.PurchasedFlight;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,7 +16,6 @@ import javafx.util.Callback;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Observer;
 
 public class FlightsWaitingForApproval extends HomePage implements Observer {
@@ -32,7 +30,8 @@ public class FlightsWaitingForApproval extends HomePage implements Observer {
     public javafx.scene.control.TableColumn DateOfDeparture;
     public javafx.scene.control.TableColumn DateOfArrival;
     public javafx.scene.control.TableColumn numberOfTickets;
-    public javafx.scene.control.TableColumn buy;
+    public javafx.scene.control.TableColumn approve;
+
 
     public void setController(Controller controller, Stage stage){
         this.controller = controller;
@@ -48,7 +47,7 @@ public class FlightsWaitingForApproval extends HomePage implements Observer {
         DateOfDeparture.setCellValueFactory(new PropertyValueFactory<Flight,String>("dateOfDeparture"));
         DateOfArrival.setCellValueFactory(new PropertyValueFactory<Flight,String>("dateOfArrival"));
         numberOfTickets.setCellValueFactory(new PropertyValueFactory<Flight,String>("numOfTickets"));
-        buy.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+        approve.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
         Callback<TableColumn<Flight, String>, TableCell<Flight, String>> cellFactory
                 = //
@@ -89,7 +88,7 @@ public class FlightsWaitingForApproval extends HomePage implements Observer {
                         return cell;
                     }
                 };
-        buy.setCellFactory(cellFactory);
+        approve.setCellFactory(cellFactory);
         ObservableList<Flight> data = FXCollections.observableArrayList(controller.readConfirmedFlightsSeller(controller.getUserName()));
         flightBoard.setItems(data);
     }

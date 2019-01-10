@@ -26,7 +26,6 @@ public class Insert extends HomePage implements Observer {
     public javafx.scene.control.TextField txtfld_lastName;
     public javafx.scene.control.TextField txtfld_Address;
     public javafx.scene.control.TextField txtfld_email;
-    public javafx.scene.image.ImageView pictureView;
     public javafx.scene.control.ComboBox combo_box_day;
     public javafx.scene.control.ComboBox combo_box_month;
     public javafx.scene.control.ComboBox combo_box_year;
@@ -39,19 +38,19 @@ public class Insert extends HomePage implements Observer {
     }
 
     public void submit(ActionEvent actionEvent) {
-        String userName = txtfld_userName.getText();
-        String email = txtfld_email.getText();
-        String password = txtfld_password.getText();
-        String confirmPassword = txtfld_confirmPassword.getText();
-        String firstName = txtfld_firstName.getText();
-        String lastName = txtfld_lastName.getText();
-        String address = txtfld_Address.getText();
+        String userName = txtfld_userName.getText().trim();
+        String email = txtfld_email.getText().trim();
+        String password = txtfld_password.getText().trim();
+        String confirmPassword = txtfld_confirmPassword.getText().trim();
+        String firstName = txtfld_firstName.getText().trim();
+        String lastName = txtfld_lastName.getText().trim();
+        String address = txtfld_Address.getText().trim();
 
         if (!validation()){
             alert("שדה אחד או יותר ריקים", Alert.AlertType.ERROR);
         }
         else{
-            RegisteredUser registeredUser = new RegisteredUser(userName,password,firstName,lastName,getBirthday(),address,email,null);
+            RegisteredUser registeredUser = new RegisteredUser(userName,password,firstName,lastName,getBirthday(),address,email);
             String ans = controller.insertUser(registeredUser,confirmPassword);
             if (!ans.equals("התחברת בהצלחה"))
                 alert(ans, Alert.AlertType.ERROR);
@@ -59,7 +58,7 @@ public class Insert extends HomePage implements Observer {
                 alert("התחברת בהצלחה", Alert.AlertType.INFORMATION);
                 stage.close();
                 controller.setUserName(userName);
-                newStage("UserHomePage.fxml", "כניסת משתמש רשום", userHomePage, 995, 716,controller);
+                newStage("UserHomePage.fxml", "כניסת משתמש רשום", userHomePage, 944, 650,controller);
                 HomePage.stage.close();
 
             }
@@ -72,21 +71,19 @@ public class Insert extends HomePage implements Observer {
      * @return true if the user filled all the Text Fields, otherwise return false
      */
     private boolean validation() {
-        if (txtfld_userName.getText() == null || txtfld_userName.getText().trim().isEmpty())
+        if (txtfld_userName.getText() == null || txtfld_userName.getText().trim().isEmpty() || txtfld_userName.getText().trim().equals(""))
             return false;
-        if (txtfld_password.getText() == null || txtfld_password.getText().trim().isEmpty())
+        if (txtfld_password.getText() == null || txtfld_password.getText().trim().isEmpty() || txtfld_password.getText().trim().equals(""))
             return false;
-        if (txtfld_confirmPassword.getText() == null || txtfld_confirmPassword.getText().trim().isEmpty())
+        if (txtfld_confirmPassword.getText() == null || txtfld_confirmPassword.getText().trim().isEmpty() || txtfld_confirmPassword.getText().trim().equals(""))
             return false;
-        if (txtfld_firstName.getText() == null || txtfld_firstName.getText().trim().isEmpty())
+        if (txtfld_firstName.getText() == null || txtfld_firstName.getText().trim().isEmpty() || txtfld_firstName.getText().trim().equals(""))
             return false;
-        if (txtfld_lastName.getText() == null || txtfld_lastName.getText().trim().isEmpty())
+        if (txtfld_lastName.getText() == null || txtfld_lastName.getText().trim().isEmpty() ||  txtfld_lastName.getText().trim().equals(""))
             return false;
-        if (txtfld_Address.getText() == null || txtfld_Address.getText().trim().isEmpty())
+        if (txtfld_Address.getText() == null || txtfld_Address.getText().trim().isEmpty() || txtfld_Address.getText().trim().equals(""))
             return false;
-        if (txtfld_email.getText() == null || txtfld_email.getText().trim().isEmpty())
-            return false;
-        if (pictureView == null)
+        if (txtfld_email.getText() == null || txtfld_email.getText().trim().isEmpty() || txtfld_email.getText().trim().equals(""))
             return false;
         return true;
     }
@@ -124,18 +121,5 @@ public class Insert extends HomePage implements Observer {
         return stage;
     }
 
-    public void loadPicture(ActionEvent actionEvent) {
-        try {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Resource File");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-            File selectedFile = fileChooser.showOpenDialog(new Stage());
-            if (selectedFile != null) {
-                javafx.scene.image.Image image = new Image(selectedFile.toURI().toString());
-                pictureView.setImage(image);
-            }
-        }catch (Exception e){
-            e.getStackTrace();
-        }
-    }
+
 }

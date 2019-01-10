@@ -248,8 +248,8 @@ public class DB {
                 + " last_name text NOT NULL,\n"
                 + "	birthday text,\n"
                 + "	address text,\n"
-                + "	email text,\n"
-                + " profilePicture text NOT NULL\n"
+                + "	email text\n"
+
                 + ");";
 
         String url = "jdbc:sqlite:" + DBName + ".db";

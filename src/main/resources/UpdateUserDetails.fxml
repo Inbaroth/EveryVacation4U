@@ -7,7 +7,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
@@ -173,8 +172,6 @@
       <Label layoutX="323.0" layoutY="192.0" prefHeight="35.0" prefWidth="69.0" text="שם משפחה:" />
       <TextField fx:id="txtfld_lastName" layoutX="237.0" layoutY="227.0" />
       <Button layoutX="35.0" layoutY="417.0" mnemonicParsing="false" onAction="#cancel" text="ביטול" />
-      <Button layoutX="80.0" layoutY="72.0" mnemonicParsing="false" onAction="#loadPicture" prefHeight="25.0" prefWidth="123.0" text="בחר תמונה" />
-      <ImageView fx:id="pictureView" fitHeight="138.0" fitWidth="123.0" layoutX="212.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true" />
       <TextField fx:id="txtfld_email" layoutX="237.0" layoutY="107.0" />
       <Label layoutX="344.0" layoutY="72.0" prefHeight="35.0" prefWidth="69.0" text="אימייל:" />
    </children>

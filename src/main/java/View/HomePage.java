@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -152,12 +153,6 @@ public class HomePage implements Observer {
                 alert.setContentText("האם אתה בטוח שברצונך לעצוב?");
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
-                    // ... user chose OK
-                    // Close program
-
-                    //disable  buttons as needed
-                    //btn_update.setDisable(false);
-                    //btn_delete.setDisable(false);
                 } else {
                     // ... user chose CANCEL or closed the dialog
                     windowEvent.consume();
@@ -169,32 +164,32 @@ public class HomePage implements Observer {
 
 
     public void search(ActionEvent actionEvent){
-        if(tf_origin.getText()==null || tf_destination.getText()==null  || dp_departure.getValue()==null || dp_arrival.getValue() == null ) {
+        if(tf_origin.getText()==null || tf_destination.getText()==null  || dp_departure.getValue()==null || dp_arrival.getValue() == null || tf_origin.getText().equals("") || tf_destination.getText().equals("")  || dp_departure.getValue().equals("") || dp_arrival.getValue().equals("")) {
             alert("אופס! אחד או יותר משדות החיפוש ריקים", Alert.AlertType.ERROR);
             return;
         } else {
             int numberOfTickets = 0;
             //valid number (not empty)
-            if (!tf_numOfTickets.getText().equals("") && StringUtils.isNumeric(tf_numOfTickets.getText()))
+            if (!tf_numOfTickets.getText().trim().equals("") && StringUtils.isNumeric(tf_numOfTickets.getText()))
                 numberOfTickets = Integer.valueOf(tf_numOfTickets.getText());
                 //invalid number (not empty)
-            if (!tf_numOfTickets.getText().equals("") && !StringUtils.isNumeric(tf_numOfTickets.getText())) {
+            if (!tf_numOfTickets.getText().trim().equals("") && !StringUtils.isNumeric(tf_numOfTickets.getText())) {
                 alert("אופס! הערך שהוזן במספר טיסות איננו תקין.", Alert.AlertType.ERROR);
                 return;
             }
-            if(dp_departure.getValue().compareTo(dp_arrival.getValue()) > 1 || dp_departure.getValue().compareTo(LocalDate.now()) < 0) {
+            if(!isValidChosenDate(dp_departure, dp_arrival) ) {
                 alert("אנא הזן טווח תאריכים חוקי", Alert.AlertType.ERROR);
                 return;
             }
             //empty, make default 1
-            else if (tf_numOfTickets.getText().equals("") || StringUtils.isNumeric(tf_numOfTickets.getText())) {
+            else if (tf_numOfTickets.getText().trim().equals("") || StringUtils.isNumeric(tf_numOfTickets.getText())) {
                 //tf_numOfTickets.setText("1");
                 numberOfTickets = 1;
                 String dateDepart = controller.changeToRightDateFormat(dp_departure.getValue().toString());
                 String dateArriv = controller.changeToRightDateFormat(dp_arrival.getValue().toString());
 //                String dateDepart = dp_departure.getValue().toString();
 //                String dateArriv = dp_arrival.getValue().toString();
-                Flight flight= new Flight(tf_origin.getText(), tf_destination.getText(), dateDepart, dateArriv, numberOfTickets);
+                Flight flight= new Flight(tf_origin.getText().trim(), tf_destination.getText().trim(), dateDepart, dateArriv, numberOfTickets);
                 if(!controller.setMatchesFlights(flight))
                     newStage("DisplayVacations.fxml", "", displayVacations, 635, 525, controller);
                 else
@@ -228,7 +223,7 @@ public class HomePage implements Observer {
     }
 
 
-    public void displayAvailableFlights(){
+    public void displayAvailableFlights(Controller controller){
         this.availableFlights = controller.getAllAvailableFlights();
         origin.setCellValueFactory(new PropertyValueFactory<Flight,String>("origin"));
         destination.setCellValueFactory(new PropertyValueFactory<Flight,String>("destination"));
@@ -327,6 +322,27 @@ public class HomePage implements Observer {
         buy1.setCellFactory(cellFactory1);
         ObservableList<Flight> data1 = FXCollections.observableArrayList(controller.readPendingToSwapFlights());
         exchangeBoard.setItems(data1);
+    }
+
+
+
+    public boolean isValidChosenDate(javafx.scene.control.DatePicker firstDate, javafx.scene.control.DatePicker secondDate) {
+        LocalDate departure = firstDate.getValue();
+        LocalDate arrival = secondDate.getValue();
+        //no date chosen
+        if (departure==null || arrival==null)
+            return false;
+        //if depart date in the past
+        if ( LocalDate.from(departure).until(LocalDate.now(), ChronoUnit.DAYS) >= 0 )
+            return false;
+        //if arrive date in the past
+        if( LocalDate.from(arrival).until(LocalDate.now(), ChronoUnit.DAYS) >= 0)
+            return false;
+        //if arrival before departure
+        if(LocalDate.from(arrival).until(LocalDate.from(departure), ChronoUnit.DAYS) >=0)
+            return false;
+
+        return true;
     }
 
 

@@ -36,9 +36,9 @@ public class Read extends HomePage implements Observer {
      * if a row is founded, a new window with the registeredUser details is shows up
      */
     public void confirm () {
-        String userName = String.valueOf(txtfld_userinput.getText());
+        String userName = String.valueOf(txtfld_userinput.getText()).trim();
 
-        if (txtfld_userinput.getText() == null || txtfld_userinput.getText().trim().isEmpty()) {
+        if (txtfld_userinput.getText() == null || txtfld_userinput.getText().trim().equals("")||txtfld_userinput.getText().trim().isEmpty()) {
             alert("אנא בחר שם משתמש לחיפוש", Alert.AlertType.ERROR);
         }
 
@@ -60,8 +60,8 @@ public class Read extends HomePage implements Observer {
             Stage newStage = new Stage();
             //set what you want on your scene
             newStage.initModality(Modality.APPLICATION_MODAL);
-            newStage.setTitle("Welcome!");
-            Scene scene = new Scene(root, 600, 400);
+            newStage.setTitle("פרטי משתמש");
+            Scene scene = new Scene(root, 505, 400);
             newStage.setScene(scene);
             newStage.setResizable(false);
             SetStageCloseEvent(newStage);

@@ -783,4 +783,9 @@ public class FlightModel extends Model{
 
     }
 
+    public void insertAvailableFlight(Flight Data){
+        String insertStatement = "INSERT INTO AvailableFlights (FlightId,Origin,Destination,Price,DestinationAirport,DateOfDeparture,DateOfArrival,AirlineCompany,NumberOfTickets,Baggage,TicketsType,VacationStyle,SellerUserName,OriginalPrice) VAlUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        createFlight(Data, insertStatement);
+    }
+
 }

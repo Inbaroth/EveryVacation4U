@@ -3,20 +3,14 @@ package View;
 import Controller.Controller;
 import Model.ConfirmedFlight;
 import Model.Flight;
-import Model.PendingToSwapFlight;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.util.Callback;
-
-import java.util.ArrayList;
 
 public class PendingMessages extends HomePage{
 
@@ -29,7 +23,8 @@ public class PendingMessages extends HomePage{
     public javafx.scene.control.TableColumn DateOfDeparture;
     public javafx.scene.control.TableColumn DateOfArrival;
     public javafx.scene.control.TableColumn numberOfTickets;
-    public javafx.scene.control.TableColumn buy;
+    public javafx.scene.control.TableColumn approve;
+    public javafx.scene.control.TableColumn decline;
 
 
     public void setController(Controller controller, Stage stage){
@@ -45,7 +40,8 @@ public class PendingMessages extends HomePage{
         DateOfDeparture.setCellValueFactory(new PropertyValueFactory<Flight,String>("dateOfDeparture"));
         DateOfArrival.setCellValueFactory(new PropertyValueFactory<Flight,String>("dateOfArrival"));
         numberOfTickets.setCellValueFactory(new PropertyValueFactory<Flight,String>("numOfTickets"));
-        buy.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+        approve.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+        decline.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
         Callback<TableColumn<Flight, String>, TableCell<Flight, String>> cellFactory
                 = //
@@ -83,7 +79,42 @@ public class PendingMessages extends HomePage{
                         return cell;
                     }
                 };
-        buy.setCellFactory(cellFactory);
+        Callback<TableColumn<Flight, String>, TableCell<Flight, String>> cellFactoryDecline
+                = //
+                new Callback<TableColumn<Flight, String>, TableCell<Flight, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<Flight, String> param) {
+                        final TableCell<Flight, String> cell = new TableCell<Flight, String>() {
+
+                            final Button btn = new Button("סרב מכירת חופשה");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                this.setAlignment(Pos.CENTER);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.setOnAction(event -> {
+                                        Flight flight = getTableView().getItems().get(getIndex());
+                                        controller.insertAvailableFlight(flight);
+                                        controller.deletePendingFlight(flight.getFlightId());
+                                        alert("החופשה תוחזר ללוח טיסות", Alert.AlertType.CONFIRMATION);
+                                        btn.setDisable(true);
+                                        //stage.close();
+
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+        approve.setCellFactory(cellFactory);
+        decline.setCellFactory(cellFactoryDecline);
         ObservableList<Flight> data = FXCollections.observableArrayList(controller.readPendingFlights(controller.getUserName()));
         flightBoard.setItems(data);
 

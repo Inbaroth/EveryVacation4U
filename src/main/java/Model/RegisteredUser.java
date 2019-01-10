@@ -12,14 +12,14 @@ public class RegisteredUser extends User{
     private String birthday;
     private String address;
     private String email;
-    private Image profilePicture;
+
 
 
     public RegisteredUser(String DBName) {
         this.DBName = DBName;
     }
 
-    public RegisteredUser(String userName, String password, String firstName, String lastName, String birthday, String address, String email, Image profilePicture) {
+    public RegisteredUser(String userName, String password, String firstName, String lastName, String birthday, String address, String email) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
@@ -27,7 +27,7 @@ public class RegisteredUser extends User{
         this.birthday = birthday;
         this.address = address;
         this.email = email;
-        this.profilePicture = profilePicture;
+
     }
 
 
@@ -60,9 +60,7 @@ public class RegisteredUser extends User{
         return email;
     }
 
-    public Image getProfilePicture() {
-        return profilePicture;
-    }
+
 
     //</editor-fold>
 
@@ -96,9 +94,7 @@ public class RegisteredUser extends User{
         this.email = email;
     }
 
-    public void setProfilePicture(Image profilePicture) {
-        this.profilePicture = profilePicture;
-    }
+
 
     //</editor-fold>
 

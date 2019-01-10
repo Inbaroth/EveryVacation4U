@@ -37,7 +37,7 @@ public class UserModel extends Model {
         else if(!isValidEmail(registeredUser.getEmail()))
             return "האימייל לא בפורמט הנכון";
         else{
-            String insertStatement = "INSERT INTO Users (user_name, password, first_name, last_name, birthday, address, email, profilePicture) VALUES (?,?,?,?,?,?,?,?)";
+            String insertStatement = "INSERT INTO Users (user_name, password, first_name, last_name, birthday, address, email) VALUES (?,?,?,?,?,?,?)";
             String url = "jdbc:sqlite:" + DBName + ".db";
 
             try (Connection conn = DriverManager.getConnection(url);
@@ -50,7 +50,6 @@ public class UserModel extends Model {
                 pstmt.setString(5, registeredUser.getBirthday()); // birthday
                 pstmt.setString(6, registeredUser.getAddress()); // address
                 pstmt.setString(7, registeredUser.getEmail()); // email
-                pstmt.setString(8,"picture"); // picture
                 pstmt.executeUpdate();
 
             } catch (SQLException e) {
@@ -97,8 +96,7 @@ public class UserModel extends Model {
                         rs.getString("last_name"),
                         rs.getString("birthday"),
                         rs.getString("address"),
-                        rs.getString("email"),
-                        null);
+                        rs.getString("email"));
                 ans= registeredUser;
                 return ans;
             }
@@ -140,8 +138,7 @@ public class UserModel extends Model {
                     + "last_name = ? ,"
                     + "birthday = ? ,"
                     + "address = ? ,"
-                    + "email = ? ,"
-                    + "profilePicture= ?"
+                    + "email = ? "
                     + "WHERE user_name = ?";
 
             String url = "jdbc:sqlite:" + DBName + ".db";
@@ -157,7 +154,6 @@ public class UserModel extends Model {
                 pstmt.setString(5, registeredUser.getBirthday()); // birthday
                 pstmt.setString(6, registeredUser.getAddress()); // address
                 pstmt.setString(7, registeredUser.getEmail()); // email
-                pstmt.setString(8,"picture"); // picture
                 pstmt.setString(9, oldUserName); // registeredUser name - primary key
                 pstmt.executeUpdate();
             } catch (SQLException e) {
