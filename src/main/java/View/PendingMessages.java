@@ -50,7 +50,7 @@ public class PendingMessages extends HomePage{
                     public TableCell call(final TableColumn<Flight, String> param) {
                         final TableCell<Flight, String> cell = new TableCell<Flight, String>() {
 
-                            final Button btn = new Button("אשר מכירת חופשה");
+                            final Button btn = new Button("אשר");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -66,7 +66,7 @@ public class PendingMessages extends HomePage{
                                         ConfirmedFlight confirmedFlight = new ConfirmedFlight(flight.getFlightId(),controller.getUserName(),buyer);
                                         controller.insertConfirmedFlight(confirmedFlight);
                                         controller.deletePendingFlight(flight.getFlightId());
-                                        alert("הסכמת רכישה תועבר לקונה", Alert.AlertType.CONFIRMATION);
+                                        alert("אישורך לרכישה יועבר לקונה", Alert.AlertType.CONFIRMATION);
                                         btn.setDisable(true);
                                         //stage.close();
 
@@ -86,7 +86,7 @@ public class PendingMessages extends HomePage{
                     public TableCell call(final TableColumn<Flight, String> param) {
                         final TableCell<Flight, String> cell = new TableCell<Flight, String>() {
 
-                            final Button btn = new Button("סרב מכירת חופשה");
+                            final Button btn = new Button("סרב");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
@@ -100,6 +100,7 @@ public class PendingMessages extends HomePage{
                                         Flight flight = getTableView().getItems().get(getIndex());
                                         controller.insertAvailableFlight(flight);
                                         controller.deletePendingFlight(flight.getFlightId());
+                                        //in the future the app will send an email declaring the decline
                                         alert("החופשה תוחזר ללוח טיסות", Alert.AlertType.CONFIRMATION);
                                         btn.setDisable(true);
                                         //stage.close();

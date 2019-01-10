@@ -77,7 +77,7 @@ public class MyFlightsForSwap  extends HomePage implements MyFlights, EventHandl
                                         Flight flight = getTableView().getItems().get(getIndex());
                                         OfferedToSwapFlight offeredToSwapFlight = new OfferedToSwapFlight(UserHomePage.flightIdForSwap,flight.getFlightId());
                                         controller.insertOfferToSwapFlight(offeredToSwapFlight);
-                                        alert("בקשתך נשלחה למוכר", Alert.AlertType.CONFIRMATION);
+                                        alert("בקשתך נשלחה", Alert.AlertType.CONFIRMATION);
                                         btn.setDisable(true);
                                         //stage.close();
 

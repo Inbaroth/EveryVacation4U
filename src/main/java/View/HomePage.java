@@ -49,6 +49,7 @@ public class HomePage implements Observer {
     public javafx.scene.control.TableColumn DateOfArrival;
     public javafx.scene.control.TableColumn numberOfTickets;
     public javafx.scene.control.TableColumn buy;
+    public javafx.scene.control.TableColumn decline;
     public javafx.scene.control.TableView exchangeBoard;
     public javafx.scene.control.TableColumn origin1;
     public javafx.scene.control.TableColumn destination1;
@@ -240,7 +241,7 @@ public class HomePage implements Observer {
                     public TableCell call(final TableColumn<Flight, String> param) {
                         final TableCell<Flight, String> cell = new TableCell<Flight, String>() {
 
-                            final Button btn = new Button("רכש חופשה");
+                            final Button btn = new Button("רכוש חופשה");
 
                             @Override
                             public void updateItem(String item, boolean empty) {
