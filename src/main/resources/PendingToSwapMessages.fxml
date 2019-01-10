@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="387.0" prefWidth="907.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.PendingToSwapMessages">
+   <children>
+       <TableView fx:id="flightBoard" layoutX="13.0" layoutY="138.0" prefHeight="162.0" prefWidth="881.0">
+           <columns>
+            <TableColumn fx:id="decline" prefWidth="81.0" text="סרב להחלפה" />
+               <TableColumn fx:id="buy" prefWidth="159.0" text="אשר החלפה" />
+               <TableColumn fx:id="price" prefWidth="89.0" style="-fx-alignment: CENTER;" text="מחיר ($) " />
+               <TableColumn fx:id="numberOfTickets" prefWidth="88.0" style="-fx-alignment: CENTER;" text="מספר כרטיסים" />
+               <TableColumn fx:id="DateOfArrival" prefWidth="121.5" style="-fx-alignment: CENTER;" text="תאריך חזרה" />
+               <TableColumn fx:id="DateOfDeparture" prefWidth="121.5" style="-fx-alignment: CENTER;" text="תאריך עזיבה" />
+               <TableColumn fx:id="destination" minWidth="0.0" prefWidth="112.0" style="-fx-alignment: CENTER;" text="יעד" />
+               <TableColumn fx:id="origin" prefWidth="111.0" style="-fx-alignment: CENTER;" text="מוצא" />
+           </columns>
+       </TableView>
+       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="230.0" layoutY="22.0" prefHeight="41.0" prefWidth="367.0" text="חופשות המוצעות להחלפה" textAlignment="CENTER">
+           <font>
+               <Font name="Calibri" size="36.0" />
+           </font>
+       </Label>
+      <ChoiceBox fx:id="chooseFlight" layoutX="620.0" layoutY="97.0" prefHeight="25.0" prefWidth="54.0" />
+      <Label fx:id="flightData" alignment="CENTER_RIGHT" layoutX="45.0" layoutY="97.0" prefHeight="25.0" prefWidth="565.0" />
+      <Label fx:id="flightData1" alignment="CENTER_RIGHT" layoutX="685.0" layoutY="96.0" prefHeight="27.0" prefWidth="134.0" text="אנא בחר חופשה:">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+   </children>
+</AnchorPane>
